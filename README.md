@@ -7,7 +7,7 @@
     brew install mysql
     brew services start mysql
     mysql -u root
-    CREATE DATABASE 'your_database_name'
+    CREATE DATABASE your_database_name
 
     # Connect to the local server
     mysql -u root -h localhost -p  -e 'show databases;'
@@ -35,5 +35,5 @@
       host: 127.0.0.1                ### add this line
       port: 3306                     ### add this line
 
-  Make sure
+  ### CHANGE
    database: your_database_name
