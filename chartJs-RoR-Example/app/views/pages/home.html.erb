@@ -1,0 +1,20 @@
+<center>
+  <h3 style="color:#E91E63">
+    <!-- <i class="fa fa-heart" aria-hidden="true"></i>&nbsp; -->
+    ChartJs
+  </h3>
+</center>
+<!-- <p>Find me in app/views/pages/home.html.erb</p> -->
+<div class="container">
+
+  <div class="row">
+    <div class="col-lg-6">
+      <%= line_chart  @data_line_chart, @options_line_chart %>
+    </div>
+    <div class="col-lg-6">
+      <%= bar_chart @data_bar_chart, @options_bar_chart %>
+    </div>
+  </div>
+
+
+</div>
