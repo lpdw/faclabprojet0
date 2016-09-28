@@ -7,10 +7,12 @@
     brew install mysql
     brew services start mysql
     mysql -u root
-    CREATE DATABASE your_database_name
+
+    #Remind is the same name for database.yml	
+    CREATE DATABASE your_database_name;
 
     # Connect to the local server
-    mysql -u root -h localhost -p  -e 'show databases;'
+    mysql -u root -h localhost -p  -e 'show databases';
 
 
 
