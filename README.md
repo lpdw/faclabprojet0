@@ -13,7 +13,6 @@
     type enter , i.e => no password
 
   ##########################################################################
-  # YOU CAN SKIP THIS STEP
   CREATE your project                     
     rails new 1.2.3_Visiteurs -d mysql
   ##########################################################################
