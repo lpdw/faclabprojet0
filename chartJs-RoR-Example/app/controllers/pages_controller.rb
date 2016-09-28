@@ -16,6 +16,13 @@ class PagesController < ApplicationController
             backgroundColor: "#F8BBD0",
             borderColor: "#E91E63",
             data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+            label: "My first dataset",
+            fill: false,
+            backgroundColor: "#8EFFC1",
+            borderColor: "#3EDC81",
+            data: [5, 9, 2 , 1, 6, 7, 4]
         }
       ]
     }
