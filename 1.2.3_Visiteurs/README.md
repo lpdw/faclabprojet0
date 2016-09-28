@@ -1,24 +1,41 @@
-# README
+# faclabprojet0
+ MAC OSX
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+  MYSQL CONF
 
-* Ruby version
+    brew install mysql
+    brew services start mysql
+    mysql -u root
 
-* System dependencies
+    #Remind is the same name for database.yml	
+    CREATE DATABASE your_database_name;
 
-* Configuration
+    # Connect to the local server
+    mysql -u root -h localhost -p  -e 'show databases';
 
-* Database creation
 
-* Database initialization
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+  ##################################################################
 
-* Deployment instructions
+  CREATE your project                     
+    rails new 1.2.3_Visiteurs -d mysql
 
-* ...
+  ##################################################################
+
+
+
+  IN "Database.yml"
+
+    default: &default
+      adapter: mysql2
+      encoding: utf8
+      username: root
+      password:
+      socket: /tmp/mysql.sock        ### add this line
+      host: 127.0.0.1                ### add this line
+      port: 3306                     ### add this line
+
+  ### CHANGE
+   database: your_database_name
