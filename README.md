@@ -10,7 +10,6 @@
 
     # Connect to the local server
     mysql -u root -h localhost -p  -e 'show databases;'
-    type enter , i.e => no password
 
   #####################################################################
 
