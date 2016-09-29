@@ -39,6 +39,7 @@ class VisitsController < ApplicationController
 
   # PATCH/PUT /visits/1
   # PATCH/PUT /visits/1.json
+=begin
   def update
     respond_to do |format|
       if @visit.update(visit_params)
@@ -50,6 +51,7 @@ class VisitsController < ApplicationController
       end
     end
   end
+=end
 
   # DELETE /visits/1
   # DELETE /visits/1.json
