@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'stat' => 'stat#home'
+  post 'stat' => 'stat#choicePlace'
 
   resources :visits, :only => [:index,:show,:new,:destroy]
   resources :places

@@ -1,7 +1,19 @@
 <center>
 
 
-  <%= select_tag "places", options_from_collection_for_select(@places, "id", "name") %>
+
+  <%= form_tag '/stat' , method: 'post' do %>
+
+    <select name="place">
+      <% @places.each do |place| %>
+        <option value=" <% place.id %> "> <%= place.name %> </option>
+      <% end %>
+    </select>
+
+    <input type="submit" value="choisir">
+  <% end %>
+
+
 
   <div style="width:400px">
     <%= line_chart  @data, @options %>
