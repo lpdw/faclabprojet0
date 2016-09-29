@@ -7,4 +7,5 @@ class CreateVisits < ActiveRecord::Migration[5.0]
       t.timestamps
     end
   end
+  change_column_null(:place,:date_visit,false)
 end
