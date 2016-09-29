@@ -1,4 +1,8 @@
 <center>
+
+
+  <%= select_tag "places", options_from_collection_for_select(@places, "id", "name") %>
+
   <div style="width:400px">
     <%= line_chart  @data, @options %>
   </div>
