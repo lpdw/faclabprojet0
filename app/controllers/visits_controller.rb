@@ -6,8 +6,8 @@ class VisitsController < ApplicationController
   def index
     @visits = Visit.all
 
+    ### graph de base ###
     @places = Place.all
-
     @data = {
       labels: ["January", "February", "March", "April", "May", "June", "July"],
       datasets: [
@@ -38,11 +38,8 @@ class VisitsController < ApplicationController
 
   # GET /visits/1
   # GET /visits/1.json
-  ##########################################################################################
   def show
-
   end
-  ##########################################################################################
 
 
   # GET /visits/new
