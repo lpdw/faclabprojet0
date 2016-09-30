@@ -26,18 +26,19 @@
 <br>
 
 <%= link_to 'New Visit', new_visit_path %> -->
+  <h1><%= @hour %>
 
 <center>
   <%= form_tag '' , method: 'post' do %>
 
     <!-- Use Helpers to build any differents style of input -->
-    
+
     <%= options_from_collection_for_select(@places, :id, :name) %>
     <%= select(:place,:place_id,options_for_select(@places.map { |place| [place.name, place.id] })) %>
 
   <% end %>
 
-  <div style="width:400px;margin-top:3em">
+  <div style="width:400px;margin-top:2em">
     <%= bar_chart  @data, @options %>
   </div>
 
