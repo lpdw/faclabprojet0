@@ -30,15 +30,20 @@
 <center>
   <%= form_tag '' , method: 'post' do %>
 
-    <select name="place">
-      <% @places.each do |place| %>
-        <option value="<%=place.id%>"><%=place.name%></option>
-      <%end%>
-    </select>
+    <!-- Use Helpers to build any differents style of input -->
+    
+    <%= options_from_collection_for_select(@places, :id, :name) %>
+    <%= select(:place,:place_id,options_for_select(@places.map { |place| [place.name, place.id] })) %>
 
-  <%end%>
+  <% end %>
 
   <div style="width:400px">
     <%= bar_chart  @data, @options %>
   </div>
+
+    <div>
+        <%= form_tag 'search', method: 'post' do %>
+
+        <% end %>
+    </div>
 </center>
