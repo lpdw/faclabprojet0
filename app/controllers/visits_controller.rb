@@ -6,27 +6,43 @@ class VisitsController < ApplicationController
   def index
     @visits = Visit.all
 
-    ### graph de base ###
     @places = Place.all
 
     labels_hours = Array.new
     hour = 9
     while hour < 20
       hour += 1
-      labels_hours.push(hour)
+      labels_hours.push(hour.to_s + "h")
     end
 
     labels_days = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
     labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
 
+    # graph de base
+    # => on affiche les stats d'hier
+    # => sinon on affiche celui de vendredi
+    #
+    today = Date.today
+    week = today.saturday? || today.sunday?
+    if week
+      #recuperation du stat de vendredi
+      day_x = "recuperation des stats de vendredi"
+      data = [5,9,7,1,2,3,4,2,3,5,8]
+    else
+      #recuperation du stat d'hier
+      day_x = (Date.yesterday).strftime("%d/%m/%Y")
+      data = [1,6,7,1,2,3,4,2,3,5,3]
+    end
+
+
     @data = {
       labels: labels_hours,
       datasets: [
         {
-            label: "Jour X ",
-            backgroundColor: "rgba(220,220,220,0.2)",
-            borderColor: "rgba(220,220,220,1)",
-            data: [65, 59, 80, 81, 56, 55, 40,10,30,45,80,90]
+            label: " nb personne ",
+            backgroundColor: "#83D6DE",
+            borderColor: "#1DABB8",
+            data: data
         }
         # {
         #     label: "Jour Y ",
@@ -37,6 +53,12 @@ class VisitsController < ApplicationController
       ]
     }
     @options = {
+      xLabels: false,
+      title: {
+            display: true,
+            text: 'STATISTIQUES DU ' + day_x,
+        },
+      legend: false,
       scales: {
             yAxes: [{
                 ticks: {
@@ -46,6 +68,10 @@ class VisitsController < ApplicationController
         }
     }
   end
+
+
+
+
 
   # GET /visits/1
   # GET /visits/1.json
