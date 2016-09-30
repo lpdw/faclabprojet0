@@ -9,19 +9,19 @@ class VisitsController < ApplicationController
     ### graph de base ###
     @places = Place.all
     @data = {
-      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      labels: ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"],
       datasets: [
         {
             label: "Année X ",
             backgroundColor: "rgba(220,220,220,0.2)",
             borderColor: "rgba(220,220,220,1)",
-            data: [65, 59, 80, 81, 56, 55, 40]
+            data: [65, 59, 80, 81, 56, 55, 40,10,30,45,80,90]
         },
         {
             label: "Année Y ",
             backgroundColor: "rgba(151,187,205,0.2)",
             borderColor: "rgba(151,187,205,1)",
-            data: [28, 48, 40, 19, 86, 27, 90]
+            data: [28, 48, 40, 19, 86, 27, 90,12,58,65,47,30]
         }
       ]
     }
