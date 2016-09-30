@@ -48,7 +48,7 @@ class VisitsController < ApplicationController
       #recuperation des stats à partir de l'instant T (connexion)
       time_t = Time.now
       #datas_db = get_data_Stat time_t.hour
-      datas_db = [1,5,3,4,2,6,5]
+      datas_db = [1,5,3,4,2,6,5,6,2,8,3,7]
 
       for i in 0..datas_chart.length-1
         #set les datas de la stat graphique à partir des datas de la bdd
