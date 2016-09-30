@@ -13,7 +13,7 @@ class VisitsController < ApplicationController
     labels_hours = Array.new
     time_t = Time.now
 
-    #remplissage du label "labels_hours" depuis l'ouverture
+    #remplissage du label "labels_hours" depuis l'heure d'ouverture
     hour = 9
     count_hour_from_open = 0
     while hour < time_t.hour
@@ -30,7 +30,7 @@ class VisitsController < ApplicationController
 
     #
     # STAT DE BASE
-    # => on affiche les stats à l'instant T
+    # => on affiche les stats depuis l'ouverture jusqu'à l'instant T
     # => sinon celui de la semaine
     #
     today = Date.today
