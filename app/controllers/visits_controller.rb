@@ -23,17 +23,17 @@ class VisitsController < ApplicationController
       labels: labels_hours,
       datasets: [
         {
-            label: "Année X ",
+            label: "Jour X ",
             backgroundColor: "rgba(220,220,220,0.2)",
             borderColor: "rgba(220,220,220,1)",
             data: [65, 59, 80, 81, 56, 55, 40,10,30,45,80,90]
-        },
-        {
-            label: "Année Y ",
-            backgroundColor: "rgba(151,187,205,0.2)",
-            borderColor: "rgba(151,187,205,1)",
-            data: [28, 48, 40, 19, 86, 27, 90,12,58,65,47,30]
         }
+        # {
+        #     label: "Jour Y ",
+        #     backgroundColor: "rgba(151,187,205,0.2)",
+        #     borderColor: "rgba(151,187,205,1)",
+        #     data: [28, 48, 40, 19, 86, 27, 90,12,58,65,47,30]
+        # }
       ]
     }
     @options = {
