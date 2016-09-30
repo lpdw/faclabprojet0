@@ -5,14 +5,9 @@ class VisitsController < ApplicationController
   # GET /visits.json
   def index
     @visits = Visit.all
-  end
 
-  # GET /visits/1
-  # GET /visits/1.json
-  ##########################################################################################
-  def show
     @places = Place.all
-    
+
     @data = {
       labels: ["January", "February", "March", "April", "May", "June", "July"],
       datasets: [
@@ -39,6 +34,13 @@ class VisitsController < ApplicationController
             }]
         }
     }
+  end
+
+  # GET /visits/1
+  # GET /visits/1.json
+  ##########################################################################################
+  def show
+
   end
   ##########################################################################################
 

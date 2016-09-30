@@ -26,3 +26,19 @@
 <br>
 
 <%= link_to 'New Visit', new_visit_path %>
+
+<center>
+  <%= form_tag '' , method: 'post' do %>
+
+    <select name="place">
+      <% @places.each do |place| %>
+        <option value=" <% place.id %> "> <%= place.name %> </option>
+      <% end %>
+    </select>
+
+  <% end %>
+
+  <div style="width:400px">
+    <%= line_chart  @data, @options %>
+  </div>
+</center>
