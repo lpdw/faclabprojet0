@@ -8,8 +8,19 @@ class VisitsController < ApplicationController
 
     ### graph de base ###
     @places = Place.all
+
+    labels_hours = Array.new
+    hour = 9
+    while hour < 20
+      hour += 1
+      labels_hours.push(hour)
+    end
+
+    labels_days = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
+    labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
+
     @data = {
-      labels: ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"],
+      labels: labels_hours,
       datasets: [
         {
             label: "Année X ",
