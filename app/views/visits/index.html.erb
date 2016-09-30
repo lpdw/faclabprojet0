@@ -32,7 +32,6 @@
   <%= form_tag '' , method: 'post' do %>
 
     <!-- Use Helpers to build any differents style of input -->
-
     <%= options_from_collection_for_select(@places, :id, :name) %>
     <%= select(:place,:place_id,options_for_select(@places.map { |place| [place.name, place.id] })) %>
 
@@ -44,7 +43,7 @@
 
     <div>
         <%= form_tag 'search', method: 'post' do %>
-
+            <%= select_date Date.today,:use_month_names => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre','Décembre'] ,prefix: :start_date %>
         <% end %>
     </div>
 </center>
