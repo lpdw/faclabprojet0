@@ -1,7 +1,7 @@
 <%= form_for(place) do |f| %>
   <% if place.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(place.errors.count, "error") %> prohibited this place from being saved:</h2>
+      <h2><%= pluralize(place.errors.count, "erreur") %>, veuillez y apporter une modification avant de valider :</h2>
 
       <ul>
       <% place.errors.full_messages.each do |message| %>
@@ -12,11 +12,11 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %>
+    <%= f.label "Nom" %>
     <%= f.text_field :name %>
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit('Valider') %>
   </div>
 <% end %>

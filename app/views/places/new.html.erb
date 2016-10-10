@@ -1,5 +1,5 @@
-<h1>New Place</h1>
+<h1>Ajouter un lieu</h1>
 
 <%= render 'form', place: @place %>
 
-<%= link_to 'Back', places_path %>
+<%= button_to 'Retour à l\'index', places_path, :method => "get" %>

@@ -1,11 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Places</h1>
+<h1>Lieux</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Name</th>
+      <th>Noms</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,9 +14,9 @@
     <% @places.each do |place| %>
       <tr>
         <td><%= place.name %></td>
-        <td><%= link_to 'Show', place %></td>
-        <td><%= link_to 'Edit', edit_place_path(place) %></td>
-        <td><%= link_to 'Destroy', place, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= button_to 'Afficher', place, :method => "get" %></td>
+        <td><%= button_to 'Modifier', edit_place_path(place), :method => "get" %></td>
+        <td><%= button_to 'Supprimer', place, method: :delete, data: { confirm: 'Vous êtes sur le point de supprimer le lieu : "'+place.name+'"' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -24,4 +24,4 @@
 
 <br>
 
-<%= link_to 'New Place', new_place_path %>
+<%= button_to 'Ajouter un lieu', new_place_path, :method => "get" %>
