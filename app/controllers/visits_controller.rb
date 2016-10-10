@@ -1,6 +1,8 @@
 class VisitsController < ApplicationController
   before_action :set_visit, :only => [:show,:edit,:destroy,:update]
 
+
+  #####################################################################################################################
   # GET /visits
   # GET /visits.json
   def index
@@ -9,54 +11,74 @@ class VisitsController < ApplicationController
     @places = Place.all
 
     labels_hours = Array.new
+    time_t = Time.now
+
+    #remplissage du label "labels_hours" depuis l'heure d'ouverture
     hour = 9
-    while hour < 20
+    count_hour_from_open = 0
+    while hour < time_t.hour
       hour += 1
+      count_hour_from_open += 1
       labels_hours.push(hour.to_s + "h")
     end
 
-    labels_days = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
+    #création du tableau qui va contenir les données avec comme taille le nombre d'heure compter depuis l'ouverture
+    datas_chart = Array.new(count_hour_from_open)
+
+    labels_weeks = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
     labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
 
-    # graph de base
-    # => on affiche les stats d'hier
-    # => sinon on affiche celui de vendredi
+    #
+    # STAT DE BASE
+    # => on affiche les stats depuis l'ouverture jusqu'à l'instant T
+    # => sinon celui de la semaine
     #
     today = Date.today
     week = today.saturday? || today.sunday?
+
     if week
-      #recuperation du stat de vendredi
-      day_x = "recuperation des stats de vendredi"
-      data = [5,9,7,1,2,3,4,2,3,5,8]
+      #recuperation du stat de la semaine
+      type_labels = "week"
+      monday = "date de debut de la semaine => Lundi"
+      friday = "date de fin de semaine => Vendredi"
+      datas_chart = [5,9,7,1,2]
     else
-      #recuperation du stat d'hier
-      day_x = (Date.yesterday).strftime("%d/%m/%Y")
-      data = [1,6,7,1,2,3,4,2,3,5,3]
+      type_labels = "day"
+      date_today = (Date.today).strftime("%d/%m/%Y")
+      #recuperation des stats à partir de l'instant T (connexion)
+      time_t = Time.now
+      #datas_db = get_data_Stat time_t.hour
+      datas_db = [1,5,3,4,2,6,5,6,2,8,3,7]
+
+      for i in 0..datas_chart.length-1
+        #set les datas de la stat graphique à partir des datas de la bdd
+        datas_chart[i] = datas_db[i]
+      end
+    end
+
+
+    if type_labels == "day"
+      labels = labels_hours
+    else
+      labels = labels_weeks
     end
 
 
     @data = {
-      labels: labels_hours,
+      labels: labels,
       datasets: [
         {
             label: " nb personne ",
             backgroundColor: "#83D6DE",
             borderColor: "#1DABB8",
-            data: data
+            data: datas_chart
         }
-        # {
-        #     label: "Jour Y ",
-        #     backgroundColor: "rgba(151,187,205,0.2)",
-        #     borderColor: "rgba(151,187,205,1)",
-        #     data: [28, 48, 40, 19, 86, 27, 90,12,58,65,47,30]
-        # }
       ]
     }
     @options = {
-      xLabels: false,
       title: {
             display: true,
-            text: 'STATISTIQUES DU ' + day_x,
+            text: 'STATISTIQUES DU ' + date_today,
         },
       legend: false,
       scales: {
@@ -68,7 +90,7 @@ class VisitsController < ApplicationController
         }
     }
   end
-
+  #####################################################################################################################
 
 
 
