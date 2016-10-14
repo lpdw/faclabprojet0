@@ -1,94 +1,105 @@
 class VisitsController < ApplicationController
   before_action :set_visit, :only => [:show,:edit,:destroy,:update]
 
-
   #####################################################################################################################
   # GET /visits
   # GET /visits.json
   def index
-    @visits = Visit.all
 
+    @visits = Visit.all
     @places = Place.all
 
-    labels_hours = Array.new
-    time_t = Time.now
+    #### Si on reçoit une requete Ajax afin de recharger la chartJS
+    if request.xhr?
+      dayFilter = params[:dayFilter]
+      monthFilter = params[:monthFilter]
+      yearFilter = params[:yearFilter]
 
-    #remplissage du label "labels_hours" depuis l'heure d'ouverture
-    hour = 9
-    count_hour_from_open = 0
-    while hour < time_t.hour
-      hour += 1
-      count_hour_from_open += 1
-      labels_hours.push(hour.to_s + "h")
-    end
-
-    #création du tableau qui va contenir les données avec comme taille le nombre d'heure compter depuis l'ouverture
-    datas_chart = Array.new(count_hour_from_open)
-
-    labels_weeks = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
-    labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
-
-    #
-    # STAT DE BASE
-    # => on affiche les stats depuis l'ouverture jusqu'à l'instant T
-    # => sinon celui de la semaine
-    #
-    today = Date.today
-    week = today.saturday? || today.sunday?
-
-    if week
-      #recuperation du stat de la semaine
-      type_labels = "week"
-      monday = "date de debut de la semaine => Lundi"
-      friday = "date de fin de semaine => Vendredi"
-      datas_chart = [5,9,7,1,2]
-    else
-      type_labels = "day"
-      date_today = (Date.today).strftime("%d/%m/%Y")
-      #recuperation des stats à partir de l'instant T (connexion)
-      time_t = Time.now
-      #datas_db = get_data_Stat time_t.hour
-      datas_db = [1,5,3,4,2,6,5,6,2,8,3,7]
-
-      for i in 0..datas_chart.length-1
-        #set les datas de la stat graphique à partir des datas de la bdd
-        datas_chart[i] = datas_db[i]
+      @datas = "some datas"
+      respond_to do |format|
+        format.json { render json: @datas}
       end
-    end
-
-
-    if type_labels == "day"
-      labels = labels_hours
     else
-      labels = labels_weeks
+      labels_hours = Array.new
+      time_t = Time.now
+
+      #remplissage du label "labels_hours" depuis l'heure d'ouverture
+      hour = 9
+      count_hour_from_open = 0
+      while hour < time_t.hour
+        hour += 1
+        count_hour_from_open += 1
+        labels_hours.push(hour.to_s + "h")
+      end
+
+      #création du tableau qui va contenir les données avec comme taille le nombre d'heure compter depuis l'ouverture
+      datas_chart = Array.new(count_hour_from_open)
+
+      labels_weeks = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
+      labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
+
+      #
+      # STATS DE BASE
+      # => on affiche les stats depuis l'ouverture jusqu'à l'instant T
+      # => sinon celui de la semaine
+      #
+      today = Date.today
+      week = today.saturday? || today.sunday?
+
+      if week
+        #recuperation du stat de la semaine
+        type_labels = "week"
+        monday = "date de debut de la semaine => Lundi"
+        friday = "date de fin de semaine => Vendredi"
+        datas_chart = [5,9,7,1,2]
+      else
+        type_labels = "day"
+        date_today = (Date.today).strftime("%d/%m/%Y")
+        #recuperation des stats à partir de l'instant T (connexion)
+        time_t = Time.now
+        #datas_db = get_data_Stat time_t.hour
+        datas_db = [1,5,3,4,2,6,5,6,2,8,3,7]
+
+        for i in 0..datas_chart.length-1
+          #set les datas de la stat graphique à partir des datas de la bdd
+          datas_chart[i] = datas_db[i]
+        end
+      end
+
+
+      if type_labels == "day"
+        labels = labels_hours
+      else
+        labels = labels_weeks
+      end
+
+
+      @data = {
+        labels: labels,
+        datasets: [
+          {
+              label: " nb personne ",
+              backgroundColor: "#83D6DE",
+              borderColor: "#1DABB8",
+              data: datas_chart
+          }
+        ]
+      }
+      @options = {
+        title: {
+              display: true,
+              text: 'STATISTIQUES DU ' + date_today,
+          },
+        legend: false,
+        scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  }
+              }]
+          }
+      }
     end
-
-
-    @data = {
-      labels: labels,
-      datasets: [
-        {
-            label: " nb personne ",
-            backgroundColor: "#83D6DE",
-            borderColor: "#1DABB8",
-            data: datas_chart
-        }
-      ]
-    }
-    @options = {
-      title: {
-            display: true,
-            text: 'STATISTIQUES DU ' + date_today,
-        },
-      legend: false,
-      scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
   end
   #####################################################################################################################
 

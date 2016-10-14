@@ -39,7 +39,7 @@ $(function(){
               };
 
     var request = $.ajax({
-                  url: '',
+                  url: '/visits/index',
                   method: 'POST',
                   data: datas,
                   dataType: 'json',
@@ -47,11 +47,13 @@ $(function(){
 
     request.done(function(data){
       // chargement de la chartJS
+      // var data = JSON.parse(data);
+      console.log(data);
     });
     request.fail(function(err){
       console.log(err);
     });
-    
+
   }//end of loadMyChart()
 
 });
