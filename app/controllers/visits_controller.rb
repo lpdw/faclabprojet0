@@ -9,17 +9,18 @@ class VisitsController < ApplicationController
     @visits = Visit.all
     @places = Place.all
 
-    #### Si on reçoit une requete Ajax afin de recharger la chartJS
+    #### Si on reçoit une requete Ajax afin de recharger les données pour la chartJS
     if request.xhr?
+
       dayFilter = params[:dayFilter]
       monthFilter = params[:monthFilter]
       yearFilter = params[:yearFilter]
+      # Recuperation des données à partir des filtres
 
-      @datas = "some datas"
-      respond_to do |format|
-        format.json { render json: @datas}
-      end
+      @datas = "{id: 0,nom: sle}"
+      render :json => { :datas => @datas }
     else
+
       labels_hours = Array.new
       time_t = Time.now
 
