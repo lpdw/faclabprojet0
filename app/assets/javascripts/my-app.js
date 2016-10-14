@@ -1,18 +1,12 @@
 
 $(function(){
-  // gestion de l'affichage du chart js ici
-
-  // recuperation des valeurs filtres
-  var yearFilter = $("#start_date_year").val();
-  var monthFilter = $("#start_date_month").val();
-  var dayFilter = $("#start_date_day").val();
 
   // onChange sur le filtre "year"
   $("#start_date_year").on('change',function(){
     var yearFilter = $(this).val();
     var monthFilter = $("#start_date_month").val();
     var dayFilter = $("#start_date_day").val();
-    console.log(dayFilter+"/"+monthFilter+"/"+yearFilter);
+    loadMyChart(dayFilter,monthFilter,yearFilter);
   });
 
   // onChange sur le filtre "month"
@@ -20,7 +14,7 @@ $(function(){
     var monthFilter = $(this).val();
     var yearFilter = $("#start_date_year").val();
     var dayFilter = $("#start_date_day").val();
-    console.log(dayFilter+"/"+monthFilter+"/"+yearFilter);
+    loadMyChart(dayFilter,monthFilter,yearFilter);
   });
 
   // onChange sur le filtre "day"
@@ -28,6 +22,12 @@ $(function(){
     var dayFilter = $(this).val();
     var yearFilter = $("#start_date_year").val();
     var monthFilter = $("#start_date_month").val();
-    console.log(dayFilter+"/"+monthFilter+"/"+yearFilter);
+    loadMyChart(dayFilter,monthFilter,yearFilter);
   });
+
+  function loadMyChart(dayFilter,monthFilter,yearFilter)
+  {
+    var name_of_place = $("#place_place_id").val();
+    console.log("Place : "+name_of_place+" => "+dayFilter+"/"+monthFilter+"/"+yearFilter);
+  }
 })
