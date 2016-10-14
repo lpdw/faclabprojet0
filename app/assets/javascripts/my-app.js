@@ -25,9 +25,33 @@ $(function(){
     loadMyChart(dayFilter,monthFilter,yearFilter);
   });
 
+
+
   function loadMyChart(dayFilter,monthFilter,yearFilter)
   {
-    var name_of_place = $("#place_place_id").val();
     console.log("Place : "+name_of_place+" => "+dayFilter+"/"+monthFilter+"/"+yearFilter);
-  }
-})
+
+    var name_of_place = $("#place_place_id").val();
+    var datas = {
+                dayFilter: dayFilter,
+                monthFilter: monthFilter,
+                yearFilter: yearFilter
+              };
+
+    var request = $.ajax({
+                  url: '',
+                  method: 'POST',
+                  data: datas,
+                  dataType: 'json',
+                });
+
+    request.done(function(data){
+      // chargement de la chartJS
+    });
+    request.fail(function(err){
+      console.log(err);
+    });
+    
+  }//end of loadMyChart()
+
+});
