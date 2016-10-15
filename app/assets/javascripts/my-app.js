@@ -39,7 +39,6 @@ $(function(){
   \****************************************************************/
   function getDatasForMyChart(dd,mm,yy)
   {
-    var datas_chart = [];
     var opts = {                //options pour la chart
         lines: 13 // The number of lines to draw
       , length: 28 // The length of each line
@@ -63,35 +62,25 @@ $(function(){
       , position: 'absolute' // Element positioning
     }
 
+    var place_name = $("#place_place_id").val();
     var datas = {
                 dayFilter: dd,
                 monthFilter: mm,
-                yearFilter: yy
+                yearFilter: yy,
+                place_name: place_name
               };
-    var name_of_place = $("#place_place_id").val();
 
     $("#my-spin").show();
     var target = document.getElementById('my-spin');
     var spinner = new Spinner(opts).spin(target);
 
-    var request = $.ajax({
+    return $.ajax({
                   url: "/visits/index",
                   method: 'POST',
                   data: datas,
                   dataType: "json",
                 });
 
-    request.then(function(data){
-      $("#my-spin").hide();
-      datas_chart = data;
-      console.log(data);
-    });
-    request.fail(function(err){
-      $("#my-spin").hide();
-      console.log(err);
-    });
-
-    return datas_chart;
   }//end of getDatasForMyChart()
 
   /****************************************************************\
@@ -99,45 +88,64 @@ $(function(){
   \****************************************************************/
   function loadMyChart(filters)
   {
-    var chartDatas = []; //données recup de la bdd
-    var date_of_stat = "";
-    //CONFIGURATION DE LA Chart
-    var ctx = document.getElementById("myChart").getContext("2d");
+    //label "Stat du : X"
+    var date_stat = "";
+
+    //recupere une promise qui va recuperer les infos depuis la bdd
+    var request = "";
 
     // Chargement de base de la charte
-    if(typeof filters === "undefined") {
+    if(typeof filters === "undefined")
+    {
       var date = new Date();
       var dd = date.getDate();
       var mm = date.getMonth()+1;
       var yy = date.getFullYear();
 
       console.log("Chargement de base loadMyChart()");
-      chartDatas = getDatasForMyChart(dd,mm,yy);
-      date_of_stat = dd+"/"+mm+"/"+yy;
+      request = getDatasForMyChart(dd,mm,yy);
+      date_stat = dd+"/"+mm+"/"+yy;
+
+      request.then(function(data){
+        $("#my-spin").hide();
+        showChart(data.labels,data.datas,date_stat);
+      });
+      request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
     }
-    else {
-      chartDatas = getDatasForMyChart(filters['dd'],filters['mm'],filters['yy']);
-      date_of_stat = filters['dd']+"/"+filters['mm']+"/"+filters['yy'];
+    else
+    {
+      var request = getDatasForMyChart(filters['dd'],filters['mm'],filters['yy']);
+      date_stat = filters['dd']+"/"+filters['mm']+"/"+filters['yy'];
+
+      request.then(function(data){
+         $("#my-spin").hide();
+         showChart(data.labels,data.datas,date_stat);
+       });
+      request.fail(function(err){ $("#my-spin").hide(); console.log(err);
+      });
     }
+  }//end Of loadMyChart()
+
+
+  function showChart(labels,datas_from_db,date_stat)
+  {
+    var ctx = document.getElementById("myChart").getContext("2d");
 
     var datas = {
-      // labels: chartDatas['labels']
-      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      labels: labels,
       datasets: [
         {
             label: " nb personne ",
             backgroundColor: "#83D6DE",
             borderColor: "#1DABB8",
-            // data: chartDatas['datasets']
-            data: [65, 59, 80, 81, 56, 55, 40]
+            data: datas_from_db
         }
       ]
     }
     var options = {
       title: {
             display: true,
-            // text: 'Statistiques du '+date_of_stat
-            text: 'STATISTIQUES DU ' + dd+"/"+mm+"/"+yy,
+            text: 'Statistiques du ' + date_stat,
         },
       legend: false,
       scales: { yAxes: [{ ticks: { beginAtZero:true } }] }
@@ -148,7 +156,6 @@ $(function(){
         data: datas,
         options: options
     });
-
-  }//end Of loadMyChart()
+  }
 
 });

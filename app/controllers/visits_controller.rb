@@ -18,8 +18,12 @@ class VisitsController < ApplicationController
       labels_hours.push(hour.to_s + "h")
     end
 
-    labels_weeks = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
-    labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
+    labels = Array.new
+
+    #Filtre par mois
+    # labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
+    #Filtre par semaine
+    # labels_weeks = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
 
     ############################################################################
      #Si on reçoit une requete Ajax afin de charger les données pour la chartJS
@@ -29,8 +33,9 @@ class VisitsController < ApplicationController
       dayFilter = params[:dayFilter]
       monthFilter = params[:monthFilter]
       yearFilter = params[:yearFilter]
+      place_name = params[:place_name]
 
-      # Si c'est initChart ou recuperation des données dont le filtre est date d'aujour
+      # Si c'est initChart ou recup des données dont le filtre est date d'aujour
       if time_t.day.to_s == dayFilter && time_t.month.to_s == monthFilter && time_t.year.to_s == yearFilter
         #verif si on est en week
         today = Date.today
@@ -38,30 +43,27 @@ class VisitsController < ApplicationController
 
         if week
           #recuperation du stat de la semaine
-          type_labels = "week"
+          labels = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
+          # datas = getStat(type_labels)
+          datas = [1,5,3,4,2,6,5]
         else
-          type_labels = "day"
-          date_today = (Date.today).strftime("%d/%m/%Y")
           #recuperation des stats à partir de l'instant T (connexion)
           time_t = Time.now
-          #datas_db = get_data_Stat time_t.hour
-          datas_db = [1,5,3,4,2,6,5,6,2,8,3,7]
+          labels = labels_hours
+          # datas = getStat(type_labels)
+          datas = [1,5,3,4,2,6,5,6,2,8,3,7]
+        end
 
-          for i in 0..datas_chart.length-1
-            #set les datas de la stat graphique à partir des datas de la bdd
-            datas_chart[i] = datas_db[i]
-          end
-        end #si on est en week || pas
-
-        render :json => labels_weeks
+        render :json => { :labels => labels , :datas => datas }
         # render :json => { :labels_weeks => labels_weeks , :labels_months => labels_months }
 
       else
-        render :json => "get datas "
+        render :json => "get some datas from filter"
 
       end # fin filtre date aujourd'hui ou iniChart
     end # fin xhr?
   end
+
   #####################################################################################################################
 
 
