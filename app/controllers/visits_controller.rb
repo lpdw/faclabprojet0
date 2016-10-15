@@ -45,7 +45,7 @@ class VisitsController < ApplicationController
           #recuperation du stat de la semaine
           labels = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
           # datas = getStat(type_labels)
-          datas = [1,5,3,4,2,6,5]
+          datas = [6,5,8,7,9]
         else
           #recuperation des stats à partir de l'instant T (connexion)
           time_t = Time.now
@@ -58,7 +58,9 @@ class VisitsController < ApplicationController
         # render :json => { :labels_weeks => labels_weeks , :labels_months => labels_months }
 
       else
-        render :json => "get some datas from filter"
+        labels = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
+        datas = [6,5,8,7,9]
+        render :json => { :labels => labels , :datas => datas }
 
       end # fin filtre date aujourd'hui ou iniChart
     end # fin xhr?
