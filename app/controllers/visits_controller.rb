@@ -9,98 +9,58 @@ class VisitsController < ApplicationController
     @visits = Visit.all
     @places = Place.all
 
-    #### Si on reçoit une requete Ajax afin de recharger les données pour la chartJS
+    labels_hours = Array.new
+    #remplissage du label "labels_hours" depuis l'heure d'ouverture
+    time_t = Time.now
+    hour = 9
+    while hour < time_t.hour
+      hour += 1
+      labels_hours.push(hour.to_s + "h")
+    end
+
+    labels_weeks = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
+    labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
+
+    ############################################################################
+     #Si on reçoit une requete Ajax afin de charger les données pour la chartJS
+    ############################################################################
     if request.xhr?
 
       dayFilter = params[:dayFilter]
       monthFilter = params[:monthFilter]
       yearFilter = params[:yearFilter]
-      # Recuperation des données à partir des filtres
 
-      @datas = "{id: 0,nom: sle}"
-      render :json => { :datas => @datas }
-    else
+      # Si c'est initChart ou recuperation des données dont le filtre est date d'aujour
+      if time_t.day.to_s == dayFilter && time_t.month.to_s == monthFilter && time_t.year.to_s == yearFilter
+        #verif si on est en week
+        today = Date.today
+        week = today.saturday? || today.sunday?
 
-      labels_hours = Array.new
-      time_t = Time.now
+        if week
+          #recuperation du stat de la semaine
+          type_labels = "week"
+        else
+          type_labels = "day"
+          date_today = (Date.today).strftime("%d/%m/%Y")
+          #recuperation des stats à partir de l'instant T (connexion)
+          time_t = Time.now
+          #datas_db = get_data_Stat time_t.hour
+          datas_db = [1,5,3,4,2,6,5,6,2,8,3,7]
 
-      #remplissage du label "labels_hours" depuis l'heure d'ouverture
-      hour = 9
-      count_hour_from_open = 0
-      while hour < time_t.hour
-        hour += 1
-        count_hour_from_open += 1
-        labels_hours.push(hour.to_s + "h")
-      end
+          for i in 0..datas_chart.length-1
+            #set les datas de la stat graphique à partir des datas de la bdd
+            datas_chart[i] = datas_db[i]
+          end
+        end #si on est en week || pas
 
-      #création du tableau qui va contenir les données avec comme taille le nombre d'heure compter depuis l'ouverture
-      datas_chart = Array.new(count_hour_from_open)
+        render :json => labels_weeks
+        # render :json => { :labels_weeks => labels_weeks , :labels_months => labels_months }
 
-      labels_weeks = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
-      labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
-
-      #
-      # STATS DE BASE
-      # => on affiche les stats depuis l'ouverture jusqu'à l'instant T
-      # => sinon celui de la semaine
-      #
-      today = Date.today
-      week = today.saturday? || today.sunday?
-
-      if week
-        #recuperation du stat de la semaine
-        type_labels = "week"
-        monday = "date de debut de la semaine => Lundi"
-        friday = "date de fin de semaine => Vendredi"
-        datas_chart = [5,9,7,1,2]
       else
-        type_labels = "day"
-        date_today = (Date.today).strftime("%d/%m/%Y")
-        #recuperation des stats à partir de l'instant T (connexion)
-        time_t = Time.now
-        #datas_db = get_data_Stat time_t.hour
-        datas_db = [1,5,3,4,2,6,5,6,2,8,3,7]
+        render :json => "get datas "
 
-        for i in 0..datas_chart.length-1
-          #set les datas de la stat graphique à partir des datas de la bdd
-          datas_chart[i] = datas_db[i]
-        end
-      end
-
-
-      if type_labels == "day"
-        labels = labels_hours
-      else
-        labels = labels_weeks
-      end
-
-
-      @data = {
-        labels: labels,
-        datasets: [
-          {
-              label: " nb personne ",
-              backgroundColor: "#83D6DE",
-              borderColor: "#1DABB8",
-              data: datas_chart
-          }
-        ]
-      }
-      @options = {
-        title: {
-              display: true,
-              text: 'STATISTIQUES DU ' + date_today,
-          },
-        legend: false,
-        scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero:true
-                  }
-              }]
-          }
-      }
-    end
+      end # fin filtre date aujourd'hui ou iniChart
+    end # fin xhr?
   end
   #####################################################################################################################
 
