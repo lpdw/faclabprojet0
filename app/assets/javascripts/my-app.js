@@ -2,7 +2,7 @@
 $(function(){
 
   //on charge une charte de base avec
-  loadMyChart();
+  loadMyChartData();
 
   /****************************************************************\
             OnChangesur chaque filtre
@@ -13,7 +13,8 @@ $(function(){
     filters['yy'] = $(this).val();
     filters['mm'] = $("#start_date_month").val();
     filters['dd'] = $("#start_date_day").val();
-    loadMyChart(filters);
+    var isNewChart = false;
+    loadMyChartData(filters,isNewChart);
   });
 
   // onChange sur le filtre "month"
@@ -22,7 +23,8 @@ $(function(){
     filters['mm'] = $(this).val();
     filters['dd'] = $("#start_date_day").val();
     filters['yy'] = $("#start_date_year").val();
-    loadMyChart(filters);
+    var isNewChart = false;
+    loadMyChartData(filters,isNewChart);
   });
 
   // onChange sur le filtre "day"
@@ -31,17 +33,16 @@ $(function(){
     filters['dd'] = $(this).val();
     filters['yy'] = $("#start_date_year").val();
     filters['mm'] = $("#start_date_month").val();
-    loadMyChart(filters);
+    var isNewChart = false;
+    loadMyChartData(filters,isNewChart);
   });
 
   // onChange sur type de filtre que l'on veut
   $("#chartType").on('change',function(){
     $("#chartType").trigger('typeChanged');
   });
-  /****************************************************************\
-          Fonction qui va récuperer les donées
-  \****************************************************************/
-  function getDatasForMyChart(dd,mm,yy)
+
+  function ajaxRequest(dd,mm,yy)
   {
     var place_name = $("#place_place_id").val();
     var datas = {
@@ -57,13 +58,12 @@ $(function(){
                   data: datas,
                   dataType: "json",
                 });
-
-  }//end of getDatasForMyChart()
+  }
 
   /****************************************************************\
           Affichage de la Chart
   \****************************************************************/
-  function loadMyChart(filters)
+  function loadMyChartData(filters,isNewChart)
   {
     //label "Stat du : X"
     var date_stat = "";
@@ -79,29 +79,30 @@ $(function(){
       var mm = date.getMonth()+1;
       var yy = date.getFullYear();
 
-      console.log("Chargement de base loadMyChart()");
-      request = getDatasForMyChart(dd,mm,yy);
+      console.log("Chargement de base loadMyChartData()");
+      request = ajaxRequest(dd,mm,yy);
       date_stat = dd+"/"+mm+"/"+yy;
+      isNewChart = true;
 
       request.then(function(data){
-        showMyChart(data.labels,data.datas,date_stat);
+        DrawMyChart(data.labels,data.datas,date_stat,isNewChart);
       });
       request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
     }
     else
     {
-      request = getDatasForMyChart(filters['dd'],filters['mm'],filters['yy']);
+      request = ajaxRequest(filters['dd'],filters['mm'],filters['yy']);
       date_stat = filters['dd']+"/"+filters['mm']+"/"+filters['yy'];
+      isNewChart = false;
 
       request.then(function(data){
-         showMyChart(data.labels,data.datas,date_stat);
-       });
-      request.fail(function(err){ $("#my-spin").hide(); console.log(err);
+         DrawMyChart(data.labels,data.datas,date_stat,isNewChart);
       });
+      request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
     }
   }
 
-  function showMyChart(labels,datas_from_db,date_stat)
+  function DrawMyChart(labels,datas_from_db,date_stat,isNewChart)
   {
     var ctx = document.getElementById("myChart").getContext("2d");
     ctx.canvas.width = 400;
@@ -128,12 +129,22 @@ $(function(){
       scales: { yAxes: [{ ticks: { beginAtZero:true } }] }
     }
 
-    // Chart de base
-    chartInstance = new Chart(ctx, {
-        type: 'line',
-        data: datas,
-        options: options
-    });
+    if(isNewChart === true){
+      chartInstance = new Chart(ctx, {
+          type: 'line',
+          data: datas,
+          options: options
+      });
+    }
+    else {
+      var type = $("#chartType").val();
+      datas = loadDatasForChart(type,labels,datas_from_db);
+      chartInstance = new Chart(ctx, {
+          type: type,
+          data: datas,
+          options: options
+      });
+    }
 
     $("#chartType").bind('typeChanged',function()
     {
@@ -251,7 +262,7 @@ $(function(){
             }]
       };
     }
-    
+
     return datas;
   }
 
