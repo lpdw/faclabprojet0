@@ -13,8 +13,8 @@ $(function(){
     filters['yy'] = $(this).val();
     filters['mm'] = $("#start_date_month").val();
     filters['dd'] = $("#start_date_day").val();
-    var isNewChart = false;
-    loadMyChartData(filters,isNewChart);
+
+    loadMyChartData(filters);
   });
 
   // onChange sur le filtre "month"
@@ -23,8 +23,8 @@ $(function(){
     filters['mm'] = $(this).val();
     filters['dd'] = $("#start_date_day").val();
     filters['yy'] = $("#start_date_year").val();
-    var isNewChart = false;
-    loadMyChartData(filters,isNewChart);
+
+    loadMyChartData(filters);
   });
 
   // onChange sur le filtre "day"
@@ -33,8 +33,8 @@ $(function(){
     filters['dd'] = $(this).val();
     filters['yy'] = $("#start_date_year").val();
     filters['mm'] = $("#start_date_month").val();
-    var isNewChart = false;
-    loadMyChartData(filters,isNewChart);
+
+    loadMyChartData(filters);
   });
 
   // onChange sur type de filtre que l'on veut
@@ -63,7 +63,7 @@ $(function(){
   /****************************************************************\
           Affichage de la Chart
   \****************************************************************/
-  function loadMyChartData(filters,isNewChart)
+  function loadMyChartData(filters)
   {
     //label "Stat du : X"
     var date_stat = "";
@@ -82,10 +82,9 @@ $(function(){
       console.log("Chargement de base loadMyChartData()");
       request = ajaxRequest(dd,mm,yy);
       date_stat = dd+"/"+mm+"/"+yy;
-      isNewChart = true;
 
       request.then(function(data){
-        DrawMyChart(data.labels,data.datas,date_stat,isNewChart);
+        DrawMyChart(data.labels,data.datas,date_stat);
       });
       request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
     }
@@ -93,16 +92,15 @@ $(function(){
     {
       request = ajaxRequest(filters['dd'],filters['mm'],filters['yy']);
       date_stat = filters['dd']+"/"+filters['mm']+"/"+filters['yy'];
-      isNewChart = false;
 
       request.then(function(data){
-         DrawMyChart(data.labels,data.datas,date_stat,isNewChart);
+         DrawMyChart(data.labels,data.datas,date_stat);
       });
       request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
     }
   }
 
-  function DrawMyChart(labels,datas_from_db,date_stat,isNewChart)
+  function DrawMyChart(labels,datas_from_db,date_stat)
   {
     var ctx = document.getElementById("myChart").getContext("2d");
     ctx.canvas.width = 400;
@@ -129,22 +127,13 @@ $(function(){
       scales: { yAxes: [{ ticks: { beginAtZero:true } }] }
     }
 
-    if(isNewChart === true){
-      chartInstance = new Chart(ctx, {
-          type: 'line',
-          data: datas,
-          options: options
-      });
-    }
-    else {
-      var type = $("#chartType").val();
-      datas = loadDatasForChart(type,labels,datas_from_db);
-      chartInstance = new Chart(ctx, {
-          type: type,
-          data: datas,
-          options: options
-      });
-    }
+    var type = $("#chartType").val();
+    datas = loadDatasForChart(type,labels,datas_from_db);
+    chartInstance = new Chart(ctx, {
+        type: type,
+        data: datas,
+        options: options
+    });
 
     $("#chartType").bind('typeChanged',function()
     {
