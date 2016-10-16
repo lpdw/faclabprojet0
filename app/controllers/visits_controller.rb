@@ -44,13 +44,13 @@ class VisitsController < ApplicationController
         if week
           #recuperation du stat de la semaine
           labels = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
-          # datas = getStat(type_labels)
+          ### datas = getStat(type_labels) ###
           datas = [6,5,8,7,9]
         else
           #recuperation des stats à partir de l'instant T (connexion)
           time_t = Time.now
           labels = labels_hours
-          # datas = getStat(type_labels)
+          ### datas = getStat(type_labels) ###
           datas = [1,5,3,4,2,6,5,6,2,8,3,7]
         end
 

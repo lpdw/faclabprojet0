@@ -34,6 +34,10 @@ $(function(){
     loadMyChart(filters);
   });
 
+  // onChange sur type de filtre que l'on veut
+  $("#chartType").on('change',function(){
+    $("#chartType").trigger('typeChanged');
+  });
   /****************************************************************\
           Fonction qui va récuperer les donées
   \****************************************************************/
@@ -41,11 +45,11 @@ $(function(){
   {
     var place_name = $("#place_place_id").val();
     var datas = {
-                dayFilter: dd,
-                monthFilter: mm,
-                yearFilter: yy,
-                place_name: place_name
-              };
+        dayFilter: dd,
+        monthFilter: mm,
+        yearFilter: yy,
+        place_name: place_name
+    };
 
     return $.ajax({
                   url: "/visits/index",
@@ -57,7 +61,7 @@ $(function(){
   }//end of getDatasForMyChart()
 
   /****************************************************************\
-          Chargement de la charte
+          Affichage de la Chart
   \****************************************************************/
   function loadMyChart(filters)
   {
@@ -80,7 +84,7 @@ $(function(){
       date_stat = dd+"/"+mm+"/"+yy;
 
       request.then(function(data){
-        showChart(data.labels,data.datas,date_stat);
+        showMyChart(data.labels,data.datas,date_stat);
       });
       request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
     }
@@ -90,23 +94,25 @@ $(function(){
       date_stat = filters['dd']+"/"+filters['mm']+"/"+filters['yy'];
 
       request.then(function(data){
-         showChart(data.labels,data.datas,date_stat);
+         showMyChart(data.labels,data.datas,date_stat);
        });
       request.fail(function(err){ $("#my-spin").hide(); console.log(err);
       });
     }
-  }//end Of loadMyChart()
+  }
 
-
-  function showChart(labels,datas_from_db,date_stat)
+  function showMyChart(labels,datas_from_db,date_stat)
   {
     var ctx = document.getElementById("myChart").getContext("2d");
+    ctx.canvas.width = 400;
+    ctx.canvas.height = 300;
+    var chartInstance = null;
 
     var datas = {
       labels: labels,
       datasets: [
         {
-            label: " nb personne ",
+            label: " nombres de personne ",
             backgroundColor: "#83D6DE",
             borderColor: "#1DABB8",
             data: datas_from_db
@@ -122,11 +128,131 @@ $(function(){
       scales: { yAxes: [{ ticks: { beginAtZero:true } }] }
     }
 
-    var chartInstance = new Chart(ctx, {
+    // Chart de base
+    chartInstance = new Chart(ctx, {
         type: 'line',
         data: datas,
         options: options
     });
+
+    $("#chartType").bind('typeChanged',function()
+    {
+      var type = $(this).val();
+      chartInstance.destroy();
+      datas = loadDatasForChart(type,labels,datas_from_db);
+
+      chartInstance = new Chart(ctx, {
+          type: $(this).val(),
+          data: datas,
+          options: options
+      });
+    });
+
+  }
+
+  function loadDatasForChart(chartType,labels,datas_from_db)
+  {
+    var datas = null;
+    if (chartType === "line")
+    {
+      datas = {
+        labels: labels,
+        datasets: [
+          {
+              label: " nombres de personne ",
+              backgroundColor: "#83D6DE",
+              borderColor: "#1DABB8",
+              data: datas_from_db
+          }
+        ]
+      }
+    }
+    else if (chartType === "bar")
+    {
+      datas = {
+      labels: labels,
+      datasets: [
+          {
+              label: "My First dataset",
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255,99,132,1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1,
+              data: datas_from_db,
+          }
+        ]
+      };
+    }
+    else if (chartType === "radar")
+    {
+      datas = {
+        labels: labels,
+        datasets: [{
+              label: "My First dataset",
+              backgroundColor: "rgba(179,181,198,0.2)",
+              borderColor: "rgba(179,181,198,1)",
+              pointBackgroundColor: "rgba(179,181,198,1)",
+              pointBorderColor: "#fff",
+              pointHoverBackgroundColor: "#fff",
+              pointHoverBorderColor: "rgba(179,181,198,1)",
+              data: datas_from_db
+          }]
+      };
+    }
+    else if (chartType === "polarArea")
+    {
+      datas = {
+        labels: labels,
+        datasets: [{
+            data: datas_from_db,
+            backgroundColor: [
+                "#FF6384",
+                "#4BC0C0",
+                "#FFCE56",
+                "#E7E9ED",
+                "#36A2EB"
+            ],
+            label: 'My dataset' // for legend
+        }]
+      };
+    }
+    else if (chartType === "pie")
+    {
+      datas = {
+        labels: labels,
+        datasets: [
+            {
+                data: datas_from_db,
+                backgroundColor: [
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56",
+                    "#df57b3",
+                ],
+                hoverBackgroundColor: [
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56",
+                    "#df57b3",
+                ]
+            }]
+      };
+    }
+    
+    return datas;
   }
 
 });
