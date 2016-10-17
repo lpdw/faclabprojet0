@@ -12,5 +12,5 @@
 class Visit < ApplicationRecord
   belongs_to :place
   validates  :date_visit, :presence => true
-  validates  :id_visit,   :presence  => true
+  validates  :place_id,   :presence  => true
 end
