@@ -18,9 +18,9 @@ while (month <= 12)
   while (day <= 31)
     unless ((month == 2 && day > 29) || (month == 4 && day > 30) || (month == 6 && day >30) || (month == 9 && day > 30) || (month == 11 && day >30))
       if(week_day != 6 &&  week_day !=7)
-        nb_visites = Random.rand(1...15)
+        nb_visites = Random.rand(1..20)
         while (nb_visites > 0)
-          Visit.create(date_visit: DateTime.new(year,month,day, Random.rand(9...20), Random.rand(1...60), Random.rand(1...60), '+2') , place: places[Random.rand(0...3)])
+          Visit.create(date_visit: DateTime.new(year,month,day, Random.rand(9...20), Random.rand(1...60), Random.rand(1...60), '+2') , place: places[Random.rand(0..2)])
           nb_visites-=1
         end
       end
