@@ -100,12 +100,13 @@ $(function(){
     }
   }
 
+  var chartInstance = null;
   function DrawMyChart(labels,datas_from_db,date_stat)
   {
+    console.log(datas_from_db);
     var ctx = document.getElementById("myChart").getContext("2d");
     ctx.canvas.width = 400;
     ctx.canvas.height = 300;
-    var chartInstance = null;
 
     var datas = {
       labels: labels,
@@ -123,11 +124,12 @@ $(function(){
             display: true,
             text: 'Statistiques du ' + date_stat,
         },
-      legend: false,
+      legend: true,
       scales: { yAxes: [{ ticks: { beginAtZero:true } }] }
     }
 
     var type = $("#chartType").val();
+
     datas = loadDatasForChart(type,labels,datas_from_db);
     chartInstance = new Chart(ctx, {
         type: type,
@@ -147,8 +149,8 @@ $(function(){
           options: options
       });
     });
-
   }
+
 
   function loadDatasForChart(chartType,labels,datas_from_db)
   {
@@ -225,7 +227,7 @@ $(function(){
                 "#E7E9ED",
                 "#36A2EB"
             ],
-            label: 'My dataset' // for legend
+            // label: 'My dataset' // for legend
         }]
       };
     }

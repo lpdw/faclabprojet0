@@ -12,7 +12,7 @@ class VisitsController < ApplicationController
     labels_hours = Array.new
     #remplissage du label "labels_hours" depuis l'heure d'ouverture
     time_t = Time.now
-    hour = 9
+    hour = 8
     while hour < time_t.hour
       hour += 1
       labels_hours.push(hour.to_s + "h")
@@ -51,7 +51,7 @@ class VisitsController < ApplicationController
           time_t = Time.now
           labels = labels_hours
           ### datas = getStat(type_labels) ###
-          datas = [1,5,3,4,2,6,5,6,2,8,3,7]
+          datas = [1,5,3,4,7]
         end
 
         render :json => { :labels => labels , :datas => datas }
