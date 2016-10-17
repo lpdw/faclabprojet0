@@ -104,57 +104,41 @@ $(function(){
   function DrawMyChart(labels,datas_from_db,date_stat)
   {
     console.log(datas_from_db);
+    var infos = null;
     var ctx = document.getElementById("myChart").getContext("2d");
     ctx.canvas.width = 400;
     ctx.canvas.height = 300;
 
-    var datas = {
-      labels: labels,
-      datasets: [
-        {
-            label: " nombres de personne ",
-            backgroundColor: "#83D6DE",
-            borderColor: "#1DABB8",
-            data: datas_from_db
-        }
-      ]
-    }
-    var options = {
-      title: {
-            display: true,
-            text: 'Statistiques du ' + date_stat,
-        },
-      legend: true,
-      scales: { yAxes: [{ ticks: { beginAtZero:true } }] }
-    }
-
     var type = $("#chartType").val();
 
-    datas = loadDatasForChart(type,labels,datas_from_db);
+    infos = loadDatasForChart(type,labels,datas_from_db,date_stat);
     chartInstance = new Chart(ctx, {
         type: type,
-        data: datas,
-        options: options
+        data: infos['datas'],
+        options: infos['options']
     });
 
     $("#chartType").bind('typeChanged',function()
     {
       var type = $(this).val();
       chartInstance.destroy();
-      datas = loadDatasForChart(type,labels,datas_from_db);
+      infos = loadDatasForChart(type,labels,datas_from_db,date_stat);
 
       chartInstance = new Chart(ctx, {
           type: $(this).val(),
-          data: datas,
-          options: options
+          data: infos['datas'],
+          options: infos['options']
       });
     });
+
   }
 
 
-  function loadDatasForChart(chartType,labels,datas_from_db)
+  function loadDatasForChart(chartType,labels,datas_from_db,date_stat)
   {
     var datas = null;
+    var options = null;
+    var infos  = [];
     if (chartType === "line")
     {
       datas = {
@@ -168,35 +152,56 @@ $(function(){
           }
         ]
       }
+      options = {
+        title: {
+                display: true,
+                text: 'Statistiques du ' + date_stat,
+            },
+          animation : {
+            easing:'easeOutBounce',
+            duration:1500,
+            animateScale:true
+          },
+          legend: {display:true},
+          scales: { yAxes: [{ ticks: { beginAtZero:true } }] }
+      }
     }
     else if (chartType === "bar")
     {
       datas = {
-      labels: labels,
-      datasets: [
-          {
-              label: "My First dataset",
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)'
-              ],
-              borderColor: [
-                  'rgba(255,99,132,1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)'
-              ],
-              borderWidth: 1,
-              data: datas_from_db,
-          }
-        ]
+        labels: labels,
+        datasets: [
+            {
+                label: "My First dataset",
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1,
+                data: datas_from_db,
+            }
+          ]
       };
+      options = {
+        title: {
+                display: true,
+                text: 'Statistiques du ' + date_stat,
+            },
+          legend: {display:true},
+          scales: { yAxes: [{ ticks: { beginAtZero:true } }] }
+      }
     }
     else if (chartType === "radar")
     {
@@ -212,6 +217,13 @@ $(function(){
               pointHoverBorderColor: "rgba(179,181,198,1)",
               data: datas_from_db
           }]
+      };
+      options = {
+        animation : {
+          easing:'easeOutBounce',
+          duration:1500,
+          animateScale:true
+        }
       };
     }
     else if (chartType === "polarArea")
@@ -229,6 +241,13 @@ $(function(){
             ],
             // label: 'My dataset' // for legend
         }]
+      };
+      options = {
+        animation : {
+          easing:'easeOutBounce',
+          duration:1500,
+          animateScale:true
+        }
       };
     }
     else if (chartType === "pie")
@@ -252,9 +271,20 @@ $(function(){
                 ]
             }]
       };
+      options = {
+        animation : {
+          easing:'easeOutBounce',
+          duration:1500,
+          animateScale:true
+        }
+      };
     }
 
-    return datas;
+
+    infos['datas'] = datas;
+    infos['options'] = options;
+
+    return infos;
   }
 
 });
