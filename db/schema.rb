@@ -12,11 +12,6 @@
 
 ActiveRecord::Schema.define(version: 20161008001236) do
 
-  create_table "place", primary_key: "id_place", force: :cascade, options: "ENGINE=MyISAM DEFAULT CHARSET=utf8" do |t|
-    t.integer  "name",       null: false
-    t.datetime "date_visit", null: false
-  end
-
   create_table "places", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at", null: false
