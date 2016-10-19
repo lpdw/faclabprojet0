@@ -1,15 +1,8 @@
 source 'https://rubygems.org'
 
-<<<<<<< HEAD
 gem 'wdm' ### seulement sur windows
-=======
-#gem 'wdm' ### seulement sur windows
-<<<<<<< Updated upstream
->>>>>>> c9419da872c5bb9934909951b110112d786afe6b
 
-=======
 gem 'rails-i18n', '~> 5.0.0'
->>>>>>> Stashed changes
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 # Use mysql as the database for Active Record
@@ -39,11 +32,7 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-#################################################################
 gem 'annotate'
-gem 'chartjs-ror'
-#################################################################
-
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
