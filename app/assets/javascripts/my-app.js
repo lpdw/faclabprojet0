@@ -85,14 +85,14 @@ $(function(){
     $("#chartType").trigger('typeChanged');
   });
 
-  $("#valider").on('click',function){
+  $("#valider").on('click',function(){
     var filters = [];
     filters['place_id'] = $(this).val();
     filters['from']     = getDate(from);
     filters['to']       = getDate(to);
 
     loadMyChartData(filters);
-  }
+  });
 
   function ajaxRequest(filters)
   {

@@ -74,36 +74,19 @@ class VisitsController < ApplicationController
     datas = Array.new
 
     if type_labels == "today"
-      # Recuperation des données avec l'id de la place +
-      i = 0
       hour_start = 9
 
-      # labels_hours.each do |item|
-        # datas[item] = item
-        #recuperation des heures depuis l'ouverture
-
-        # if datas[i] == nil
-        #   datas.delete(datas[i])
-        # else
-        #   datas[i] =  Visit.where(
-        #                                'place_id = ?
-        #                                 AND DATE(date_visit) LIKE ?
-        #                                 AND HOUR(date_visit) BETWEEN  ? and ?',
-        #                                 id_place,
-        #                                 time.to_s,
-        #                                 labels_hours[item-1],
-        #                                 labels_hours[item])
-          # hour_start += 1
-        # end
-        # i += 1
-      # end
-
-      # datas = labels_hours.count
-
-                          # time.strftime("%H")
-                          # AND HOUR(date_visit) BETWEEN ? AND ?',
-    else
-      #Recuperation des données données de la semaine
+        Visit.where(
+                     'place_id = ?
+                      AND DATE(date_visit) LIKE ?
+                      AND HOUR(date_visit) BETWEEN  ? and ?',
+                      id_place,
+                      time.to_s,
+                      labels_hours[item-1],
+                      labels_hours[item]
+                    )
+      else
+      #Recuperation des données données de la semaine a partir du filtre
       datas = Visit.where()
     end
 
