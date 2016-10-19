@@ -55,12 +55,20 @@ $(function(){
 
   function ajaxRequest(dd,mm,yy)
   {
+<<<<<<< HEAD
+    var id_place = $("#place_place_id").val();
+=======
     var place_id = $("#place_place_id").val();
+>>>>>>> c9419da872c5bb9934909951b110112d786afe6b
     var datas = {
         dayFilter: dd,
         monthFilter: mm,
         yearFilter: yy,
+<<<<<<< HEAD
+        id_place: id_place
+=======
         place_id: place_id
+>>>>>>> c9419da872c5bb9934909951b110112d786afe6b
     };
 
     return $.ajax({
@@ -265,20 +273,17 @@ $(function(){
     {
       datas = {
         labels: labels,
-        datasets: [
-            {
+        datasets: [{
                 data: datas_from_db,
                 backgroundColor: [
                     "#FF6384",
                     "#36A2EB",
-                    "#FFCE56",
-                    "#df57b3",
+                    "#FFCE56"
                 ],
                 hoverBackgroundColor: [
                     "#FF6384",
                     "#36A2EB",
-                    "#FFCE56",
-                    "#df57b3",
+                    "#FFCE56"
                 ]
             }]
       };
