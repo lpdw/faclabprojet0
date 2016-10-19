@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'wdm' ### seulement sur windows
+# jquery_ujs
+gem 'jquery-ui-rails'
 
 gem 'rails-i18n', '~> 5.0.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
