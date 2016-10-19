@@ -41,9 +41,14 @@ GEM
     annotate (2.7.1)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 12.0)
+<<<<<<< Updated upstream
     arel (7.1.4)
     bcrypt (3.1.11)
     bcrypt (3.1.11-x86-mingw32)
+=======
+    arel (7.1.2)
+    bcrypt (3.1.11)
+>>>>>>> Stashed changes
     builder (3.2.2)
     byebug (9.0.6)
     coffee-rails (4.2.1)
