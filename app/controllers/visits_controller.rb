@@ -43,7 +43,7 @@ class VisitsController < ApplicationController
           chart_labels = labels_hours
           # datas = getDatas(Date.today,"today",id_place,labels_hours)
           datas = [1,5,3,4,2,6,5,6,2,8,3,7]
-
+          datas = getDatas()
         end ### end if week
 
         render :json => { :labels => chart_labels , :datas => datas }
@@ -72,10 +72,8 @@ class VisitsController < ApplicationController
     # end
 
     datas = Array.new
+
     if type_labels == "today"
-      # time = Time.now
-      start_date = Date.parse(time.to_s)
-      end_date = Date.parse(time.to_s)
       # Recuperation des données avec l'id de la place +
       i = 0
       hour_start = 9
