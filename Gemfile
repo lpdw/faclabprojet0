@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-#gem 'wdm' ### seulement sur windows
+gem 'wdm' ### seulement sur windows
 # jquery_ujs
 gem 'jquery-ui-rails'
 
