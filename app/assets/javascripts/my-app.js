@@ -44,12 +44,12 @@ $(function(){
 
   function ajaxRequest(dd,mm,yy)
   {
-    var place_name = $("#place_place_id").val();
+    var id_place = $("#place_place_id").val();
     var datas = {
         dayFilter: dd,
         monthFilter: mm,
         yearFilter: yy,
-        place_name: place_name
+        id_place: id_place
     };
 
     return $.ajax({
@@ -254,20 +254,17 @@ $(function(){
     {
       datas = {
         labels: labels,
-        datasets: [
-            {
+        datasets: [{
                 data: datas_from_db,
                 backgroundColor: [
                     "#FF6384",
                     "#36A2EB",
-                    "#FFCE56",
-                    "#df57b3",
+                    "#FFCE56"
                 ],
                 hoverBackgroundColor: [
                     "#FF6384",
                     "#36A2EB",
-                    "#FFCE56",
-                    "#df57b3",
+                    "#FFCE56"
                 ]
             }]
       };

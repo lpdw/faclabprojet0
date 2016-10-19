@@ -9,15 +9,9 @@ class VisitsController < ApplicationController
     @visits = Visit.all
     @places = Place.all
 
-    labels_hours = Array.new
+    labels_hours = [9,10,11,12,13,14,15,16,17,18,19,20]
     #remplissage du label "labels_hours" depuis l'heure d'ouverture
     time_t = Time.now
-    hour = 8
-    while hour < time_t.hour
-      hour += 1
-      labels_hours.push(hour.to_s + "h")
-    end
-
     labels = Array.new
 
     #Filtre par mois
@@ -33,7 +27,7 @@ class VisitsController < ApplicationController
       dayFilter = params[:dayFilter]
       monthFilter = params[:monthFilter]
       yearFilter = params[:yearFilter]
-      place_name = params[:place_name]
+      id_place = params[:id_place]
 
       # Si c'est initChart ou recup des données dont le filtre est date d'aujour
       if time_t.day.to_s == dayFilter && time_t.month.to_s == monthFilter && time_t.year.to_s == yearFilter
@@ -44,14 +38,14 @@ class VisitsController < ApplicationController
         if week
           #recuperation du stat de la semaine
           labels = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
-          ### datas = getStat(type_labels) ###
+          # datas = getDatas(type_labels)
           datas = [6,5,8,7,9]
         else
           #recuperation des stats à partir de l'instant T (connexion)
           time_t = Time.now
           labels = labels_hours
-          ### datas = getStat(type_labels) ###
-          datas = [1,5,3,4,2,6,5,6,2,8,3,7]
+          datas = getDatas(Date.today,"today",id_place,labels_hours)
+          # datas = [1,5,3,4,2,6,5,6,2,8,3,7]
         end
 
         render :json => { :labels => labels , :datas => datas }
@@ -59,7 +53,7 @@ class VisitsController < ApplicationController
 
       else
         labels = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
-        datas = [6,5,8,7,9]
+        datas = getDatas(Date.today,"today",id_place)
         render :json => { :labels => labels , :datas => datas }
 
       end # fin filtre date aujourd'hui ou iniChart
@@ -68,7 +62,48 @@ class VisitsController < ApplicationController
 
   #####################################################################################################################
 
+  def getDatas(time,type_labels,id_place,labels_hours)
 
+    datas = Array.new
+    if type_labels == "today"
+      # time = Time.now
+      start_date = Date.parse(time.to_s)
+      end_date = Date.parse(time.to_s)
+      # Recuperation des données avec l'id de la place +
+      i = 0
+      hour_start = 9
+
+      labels_hours.each do |item|
+        datas[item] = item
+        #recuperation des heures depuis l'ouverture
+
+        # if datas[i] == nil
+        #   datas.delete(datas[i])
+        # else
+        #   datas[i] =  Visit.where(
+        #                                'place_id = ?
+        #                                 AND DATE(date_visit) LIKE ?
+        #                                 AND HOUR(date_visit) BETWEEN  ? and ?',
+        #                                 id_place,
+        #                                 time.to_s,
+        #                                 labels_hours[item-1],
+        #                                 labels_hours[item])
+          hour_start += 1
+        # end
+        i += 1
+      end
+
+      # datas = labels_hours.count
+
+                          # time.strftime("%H")
+                          # AND HOUR(date_visit) BETWEEN ? AND ?',
+    else
+      #Recuperation des données données de la semaine
+      datas = Visit.where()
+    end
+
+    return datas
+  end
 
 
   # GET /visits/1
