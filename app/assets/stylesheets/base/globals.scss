@@ -38,11 +38,23 @@ nav{
                 &:hover{
                     text-shadow: 0px 0px 5px $text_white;
                 }
-               
+
             }
         }
     }
 }
 ////// SECTION
-
-
+section{
+    justify-content: center;
+    display: flex;
+    &>article{
+      text-align: center;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    &>header{
+      text-align: center;
+      width: 100%;
+    }
+  }
+}

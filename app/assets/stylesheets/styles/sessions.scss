@@ -1,3 +1,60 @@
 // Place all the styles related to the Sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import "base/vars.scss";
+
+
+/////// @TODO mettre media querie pc
+#connexion{
+  margin-top: 150px;
+  header{
+    h2{
+      text-transform: uppercase;
+      color: $main_color;
+      font-size: $h2_size;
+    }
+  }
+  form{
+    display: flex;
+    flex-wrap: wrap;
+    fieldset{
+      width: 100%;
+      &.formValidate{
+        text-align: right;
+        input{
+          background-color: $main_color;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          text-transform: uppercase;
+          cursor: pointer;
+
+        }
+      }
+
+    ol{
+      display: flex;
+      align-content: space-between;
+      flex-wrap: wrap;
+      li{
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        label{
+          visibility: hidden;
+          width: 0px;
+        }
+        input{
+          width: 100%;
+          height: 25px;
+          height: 25px;
+          border: none;
+          border-bottom: 1px solid $main_color;
+          color: $main_color;
+          margin: 14px 0 25px 0;
+        }
+      }
+    }
+  }
+  }
+}

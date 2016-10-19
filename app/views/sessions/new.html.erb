@@ -1,16 +1,24 @@
-<article>
+<article id="connexion">
    <header>
         <h2>Connexion</h2>
     </header>
 
     <%= form_for(:session, url: root_path) do |f| %>
+    <fieldset class="formInput">
+        <ol>
+          <li>
+            <%= f.label :login %>
+            <%= f.text_field :login , placeholder: "login"%>
+          </li>
+          <li>
+            <%= f.label :mot_de_passe %>
+            <%= f.password_field :password , placeholder: "password"%>
+         </li>
+       </ol>
+    </fieldset>
+    <fieldset class="formValidate">
+            <%= f.submit "Valider" %>
+    </fieldset>
+        <% end %>
 
-      <%= f.label :login %>
-      <%= f.text_field :login %>
-
-      <%= f.label :mot_de_passe %>
-      <%= f.password_field :password %>
-
-      <%= f.submit "Valider" %>
-    <% end %>
 </article>
