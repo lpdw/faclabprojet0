@@ -13,4 +13,6 @@
  *= require_tree .
 
  *= require main
+
+ *= require jquery-ui
  */

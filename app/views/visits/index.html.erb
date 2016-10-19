@@ -50,10 +50,14 @@
   </select>
 
     <div>
-        <%= form_tag 'search', method: 'post' do %>
+        <!--<%= form_tag 'search', method: 'post' do %>
             <%= select_date Date.today,:use_month_names => [t(:jan), t(:feb), t(:mar), t(:apr), t(:may), t(:jun), t(:jul), t(:aug), t(:sep), t(:oct), t(:nov), t(:dec)] ,prefix: :start_date %>
-        <% end %>
+        <% end %>-->
 
-        
+        <label for="from">Du</label>
+          <input type="text" id="from" name="from">
+        <label for="to">Au</label>
+          <input type="text" id="to" name="to">
+
     </div>
 </center>
