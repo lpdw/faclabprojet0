@@ -41,14 +41,8 @@ GEM
     annotate (2.7.1)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 12.0)
-<<<<<<< Updated upstream
     arel (7.1.4)
     bcrypt (3.1.11)
-    bcrypt (3.1.11-x86-mingw32)
-=======
-    arel (7.1.2)
-    bcrypt (3.1.11)
->>>>>>> Stashed changes
     builder (3.2.2)
     byebug (9.0.6)
     coffee-rails (4.2.1)
@@ -63,7 +57,6 @@ GEM
     erubis (2.7.0)
     execjs (2.7.0)
     ffi (1.9.14)
-    ffi (1.9.14-x86-mingw32)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -91,11 +84,8 @@ GEM
     minitest (5.9.1)
     multi_json (1.12.1)
     mysql2 (0.4.4)
-    mysql2 (0.4.4-x86-mingw32)
     nio4r (1.2.1)
     nokogiri (1.6.8.1)
-      mini_portile2 (~> 2.1.0)
-    nokogiri (1.6.8.1-x86-mingw32)
       mini_portile2 (~> 2.1.0)
     puma (3.6.0)
     rack (2.0.1)
@@ -158,8 +148,6 @@ GEM
     turbolinks-source (5.0.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2016.7)
-      tzinfo (>= 1.0.0)
     uglifier (3.0.2)
       execjs (>= 0.3.0, < 3)
     wdm (0.1.1)
@@ -174,7 +162,6 @@ GEM
 
 PLATFORMS
   ruby
-  x86-mingw32
 
 DEPENDENCIES
   annotate
