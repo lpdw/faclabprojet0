@@ -27,17 +27,13 @@ class VisitsController < ApplicationController
       dayFilter = params[:dayFilter]
       monthFilter = params[:monthFilter]
       yearFilter = params[:yearFilter]
-<<<<<<< HEAD
       id_place = params[:id_place]
-=======
+
       place_id = params[:place_id]
 
       today = Date.today
       now = today.to_s(:db)
       nowTime = today.to_s
-
-
->>>>>>> c9419da872c5bb9934909951b110112d786afe6b
 
       # Si c'est initChart ou recup des données dont le filtre est date d'aujour
       if time_t.day.to_s == dayFilter && time_t.month.to_s == monthFilter && time_t.year.to_s == yearFilter
@@ -61,12 +57,11 @@ class VisitsController < ApplicationController
           datas = [6,5,8,7,9]
         else
           #recuperation des stats à partir de l'instant T (connexion)
-<<<<<<< HEAD
           time_t = Time.now
           labels = labels_hours
           datas = getDatas(Date.today,"today",id_place,labels_hours)
           # datas = [1,5,3,4,2,6,5,6,2,8,3,7]
-=======
+
           if countVisit
 
             datas = [countVisit]
@@ -81,7 +76,6 @@ class VisitsController < ApplicationController
           #visitFromFinder = Visit.where(["date_visit like ?", "%#{now}%"])
           #visitFromFinder = Visit.find(:all,, :conditions => ["date_visit like ?", "%#{now}%", "place_id = ?", params[:place_id]])
 
->>>>>>> c9419da872c5bb9934909951b110112d786afe6b
         end
 
         render :json => { :labels => labels , :datas => datas }
