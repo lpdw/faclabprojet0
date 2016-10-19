@@ -37,19 +37,38 @@ $(function(){
     loadMyChartData(filters);
   });
 
+  // onChange on the filter "place"
+  $("#place_place_id").on('change',function(){
+    var filters = [];
+    filters['place_id'] = $(this).val();
+    filters['dd'] = $("#start_date_day").val();
+    filters['yy'] = $("#start_date_year").val();
+    filters['mm'] = $("#start_date_month").val();
+    loadMyChartData(filters);
+  });
+
   // onChange sur type de filtre que l'on veut
   $("#chartType").on('change',function(){
     $("#chartType").trigger('typeChanged');
   });
 
+
   function ajaxRequest(dd,mm,yy)
   {
+<<<<<<< HEAD
     var id_place = $("#place_place_id").val();
+=======
+    var place_id = $("#place_place_id").val();
+>>>>>>> c9419da872c5bb9934909951b110112d786afe6b
     var datas = {
         dayFilter: dd,
         monthFilter: mm,
         yearFilter: yy,
+<<<<<<< HEAD
         id_place: id_place
+=======
+        place_id: place_id
+>>>>>>> c9419da872c5bb9934909951b110112d786afe6b
     };
 
     return $.ajax({
