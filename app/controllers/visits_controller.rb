@@ -42,12 +42,8 @@ class VisitsController < ApplicationController
         week = today.saturday? || today.sunday?
 
 ############ Optimise this function to select data and charge the chartjs
-
-
             visitFromFinder = Visit.where(['date_visit like ? and place_id = ?', "%#{now}%", params[:place_id]])
             countVisit    = visitFromFinder.count
-
-
 ###################
 
         if week
@@ -59,30 +55,26 @@ class VisitsController < ApplicationController
           #recuperation des stats à partir de l'instant T (connexion)
           time_t = Time.now
           labels = labels_hours
-          datas = getDatas(Date.today,"today",id_place,labels_hours)
-          # datas = [1,5,3,4,2,6,5,6,2,8,3,7]
+          # datas = getDatas(Date.today,"today",id_place,labels_hours)
+          datas = [1,5,3,4,2,6,5,6,2,8,3,7]
 
           if countVisit
-
-            datas = [countVisit]
+            # datas = [countVisit]
             labels = labels_hours
-
           end
-
-          puts nowTime.inspect
 
           ### datas = getStat(type_labels) ###
 
           #visitFromFinder = Visit.where(["date_visit like ?", "%#{now}%"])
           #visitFromFinder = Visit.find(:all,, :conditions => ["date_visit like ?", "%#{now}%", "place_id = ?", params[:place_id]])
-
         end
 
         render :json => { :labels => labels , :datas => datas }
         # render :json => { :labels_weeks => labels_weeks , :labels_months => labels_months }
       else
         labels = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
-        datas = getDatas(Date.today,"today",id_place)
+        # datas = getDatas(Date.today,"today",id_place)
+        datas = [1,2,3,4,5,6,7,8,9]
         render :json => { :labels => labels , :datas => datas }
       end # fin filtre date aujourd'hui ou iniChart
 
@@ -102,8 +94,8 @@ class VisitsController < ApplicationController
       i = 0
       hour_start = 9
 
-      labels_hours.each do |item|
-        datas[item] = item
+      # labels_hours.each do |item|
+        # datas[item] = item
         #recuperation des heures depuis l'ouverture
 
         # if datas[i] == nil
@@ -117,10 +109,10 @@ class VisitsController < ApplicationController
         #                                 time.to_s,
         #                                 labels_hours[item-1],
         #                                 labels_hours[item])
-          hour_start += 1
+          # hour_start += 1
         # end
-        i += 1
-      end
+        # i += 1
+      # end
 
       # datas = labels_hours.count
 

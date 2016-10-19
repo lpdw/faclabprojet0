@@ -55,21 +55,13 @@ $(function(){
 
   function ajaxRequest(dd,mm,yy)
   {
-<<<<<<< HEAD
-    var id_place = $("#place_place_id").val();
-=======
     var place_id = $("#place_place_id").val();
->>>>>>> c9419da872c5bb9934909951b110112d786afe6b
     var datas = {
         dayFilter: dd,
         monthFilter: mm,
         yearFilter: yy,
-<<<<<<< HEAD
-        id_place: id_place
-=======
         place_id: place_id
->>>>>>> c9419da872c5bb9934909951b110112d786afe6b
-    };
+      };
 
     return $.ajax({
                   url: "/visits/index",
@@ -137,8 +129,7 @@ $(function(){
         options: infos['options']
     });
 
-    $("#chartType").bind('typeChanged',function()
-    {
+    $("#chartType").bind('typeChanged',function(){
       var type = $(this).val();
       chartInstance.destroy();
       infos = loadDatasForChart(type,labels,datas_from_db,date_stat);
