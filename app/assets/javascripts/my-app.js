@@ -37,19 +37,30 @@ $(function(){
     loadMyChartData(filters);
   });
 
+  // onChange on the filter "place"
+  $("#place_place_id").on('change',function(){
+    var filters = [];
+    filters['place_id'] = $(this).val();
+    filters['dd'] = $("#start_date_day").val();
+    filters['yy'] = $("#start_date_year").val();
+    filters['mm'] = $("#start_date_month").val();
+    loadMyChartData(filters);
+  });
+
   // onChange sur type de filtre que l'on veut
   $("#chartType").on('change',function(){
     $("#chartType").trigger('typeChanged');
   });
 
+
   function ajaxRequest(dd,mm,yy)
   {
-    var place_name = $("#place_place_id").val();
+    var place_id = $("#place_place_id").val();
     var datas = {
         dayFilter: dd,
         monthFilter: mm,
         yearFilter: yy,
-        place_name: place_name
+        place_id: place_id
     };
 
     return $.ajax({
