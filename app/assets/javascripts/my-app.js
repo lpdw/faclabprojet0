@@ -98,11 +98,12 @@ $(function(){
   {
     var place_id = $("#place_place_id").val();
     var datas = {
+
         from: filters['from'],
         to: filters['to'],
         place_id: place_id
     };
-    alert(datas.from);
+
     return $.ajax({
                   url: "/visits/index",
                   method: 'POST',
@@ -169,8 +170,7 @@ $(function(){
         options: infos['options']
     });
 
-    $("#chartType").bind('typeChanged',function()
-    {
+    $("#chartType").bind('typeChanged',function(){
       var type = $(this).val();
       chartInstance.destroy();
       infos = loadDatasForChart(type,labels,datas_from_db,date_stat);
