@@ -3,7 +3,7 @@ $(function(){
 
 
   var dateFormat = 'yy-mm-dd',
-      from = $( "#from" )
+      start_date = $( "#start_date" )
         .datepicker({
           dateFormat: 'yy-mm-dd',
           defaultDate: "+1w",
@@ -11,72 +11,38 @@ $(function(){
           numberOfMonths: 1
         })
         .on( "change", function() {
-          to.datepicker( "option", "minDate", getDate( this ) );
+          end_date.datepicker( "option", "minDate", getDate( this ) );
         }),
-      to = $( "#to" ).datepicker({
+      end_date = $( "#end_date" ).datepicker({
         dateFormat: 'yy-mm-dd',
         defaultDate: "+1w",
         changeMonth: true,
         numberOfMonths: 1
       })
       .on( "change", function() {
-        from.datepicker( "option", "maxDate", getDate( this ) );
+        start_date.datepicker( "option", "maxDate", getDate( this ) );
       });
 
-    function getDate( element ) {
-      var date;
-      try {
-        date = $.datepicker.parseDate( dateFormat, element.value );
+  function getDate( element ) {
+    var date;
+    try {
+      date = $.datepicker.parseDate( dateFormat, element.value );
 
-      } catch( error ) {
-        date = null;
-      }
-      return date;
+    } catch( error ) {
+      date = null;
     }
+    return date;
+  }
 
   //on charge une charte de base avec
   loadMyChartData();
-
-  /****************************************************************\
-            OnChangesur chaque filtre
-  \****************************************************************/
-  // onChange sur le filtre "year"
-  $("#start_date_year").on('change',function(){
-    var filters = [];
-    filters['yy'] = $(this).val();
-    filters['mm'] = $("#start_date_month").val();
-    filters['dd'] = $("#start_date_day").val();
-
-    loadMyChartData(filters);
-  });
-
-  // onChange sur le filtre "month"
-  $("#start_date_month").on('change',function(){
-    var filters = [];
-    filters['mm'] = $(this).val();
-    filters['dd'] = $("#start_date_day").val();
-    filters['yy'] = $("#start_date_year").val();
-
-    loadMyChartData(filters);
-  });
-
-  // onChange sur le filtre "day"
-  $("#start_date_day").on('change',function(){
-    var filters = [];
-    filters['dd'] = $(this).val();
-    filters['yy'] = $("#start_date_year").val();
-    filters['mm'] = $("#start_date_month").val();
-
-    loadMyChartData(filters);
-  });
 
   // onChange on the filter "place"
   $("#place_place_id").on('change',function(){
     var filters = [];
     filters['place_id'] = $(this).val();
-    filters['dd'] = $("#start_date_day").val();
-    filters['yy'] = $("#start_date_year").val();
-    filters['mm'] = $("#start_date_month").val();
+    filters['start_date']   = start_date.val();
+    filters['end_date']     = end_date.val();
     loadMyChartData(filters);
   });
 
@@ -87,20 +53,37 @@ $(function(){
 
   $("#valider").on('click',function(){
     var filters = [];
-    filters['place_id'] = $(this).val();
-    filters['from']     = getDate(from);
-    filters['to']       = getDate(to);
-
+    filters['place_id'] = $("#place_id").val();
+    filters['start_date']   = start_date.val();
+    filters['end_date']     = end_date.val();
     loadMyChartData(filters);
   });
 
   function ajaxRequest(filters)
   {
+    if (typeof filters === 'undefined')
+    {
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //January is 0!
+      var yyyy = today.getFullYear();
+
+      if(dd<10)
+        dd='0'+dd
+      if(mm<10)
+          mm='0'+mm
+      today = yyyy+"-"+dd+"-"+mm;
+
+      var filters = [];
+      filters['start_date'] = today
+      filters['end_date'] = today
+    }
+    
+    console.log(filters);
     var place_id = $("#place_place_id").val();
     var datas = {
-
-        from: filters['from'],
-        to: filters['to'],
+        start_date: filters['start_date'],
+        end_date: filters['end_date'],
         place_id: place_id
     };
 
@@ -132,28 +115,26 @@ $(function(){
       var yy = date.getFullYear();
 
       console.log("Chargement de base loadMyChartData()");
-      request = ajaxRequest(dd,mm,yy);
-      date_stat = dd+"/"+mm+"/"+yy;
+      request = ajaxRequest(filters);
 
       request.then(function(data){
-        DrawMyChart(data.labels,data.datas,date_stat);
+        DrawMyChart(data.labels,data.datas);
       });
       request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
     }
     else
     {
-      request = ajaxRequest(filters['dd'],filters['mm'],filters['yy']);
-      date_stat = filters['dd']+"/"+filters['mm']+"/"+filters['yy'];
+      request = ajaxRequest(filters);
 
       request.then(function(data){
-         DrawMyChart(data.labels,data.datas,date_stat);
+         DrawMyChart(data.labels,data.datas);
       });
       request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
     }
   }
 
   var chartInstance = null;
-  function DrawMyChart(labels,datas_from_db,date_stat)
+  function DrawMyChart(labels,datas_from_db)
   {
     console.log(datas_from_db);
     var infos = null;
@@ -163,7 +144,7 @@ $(function(){
 
     var type = $("#chartType").val();
 
-    infos = loadDatasForChart(type,labels,datas_from_db,date_stat);
+    infos = loadDatasForChart(type,labels,datas_from_db);
     chartInstance = new Chart(ctx, {
         type: type,
         data: infos['datas'],
@@ -173,7 +154,7 @@ $(function(){
     $("#chartType").bind('typeChanged',function(){
       var type = $(this).val();
       chartInstance.destroy();
-      infos = loadDatasForChart(type,labels,datas_from_db,date_stat);
+      infos = loadDatasForChart(type,labels,datas_from_db);
 
       chartInstance = new Chart(ctx, {
           type: $(this).val(),
@@ -185,7 +166,7 @@ $(function(){
   }
 
 
-  function loadDatasForChart(chartType,labels,datas_from_db,date_stat)
+  function loadDatasForChart(chartType,labels,datas_from_db)
   {
     var datas = null;
     var options = null;
@@ -206,7 +187,7 @@ $(function(){
       options = {
         title: {
                 display: true,
-                text: 'Statistiques du ' + date_stat,
+                text: 'Statistiques du ',
             },
           animation : {
             easing:'easeOutBounce',
@@ -248,7 +229,7 @@ $(function(){
       options = {
         title: {
                 display: true,
-                text: 'Statistiques du ' + date_stat,
+                text: 'Statistiques du ',
             },
           legend: {display:true},
           scales: { yAxes: [{ ticks: { beginAtZero:true } }] }
