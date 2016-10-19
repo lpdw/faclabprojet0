@@ -12,17 +12,13 @@
 
 ActiveRecord::Schema.define(version: 20161008001236) do
 
-
   create_table "places", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-
     t.string   "login"
     t.string   "email"
     t.string   "password_digest"
@@ -31,10 +27,8 @@ ActiveRecord::Schema.define(version: 20161008001236) do
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
-
   create_table "visits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-
-    t.datetime "date_visit"
+    t.datetime "date_visit", null: false
     t.integer  "place_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

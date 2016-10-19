@@ -20,7 +20,7 @@ while (month <= 12)
       if(week_day != 6 &&  week_day !=7)
         nb_visites = Random.rand(1..20)
         while (nb_visites > 0)
-          #Visit.create(date_visit: DateTime.new(year,month,day, Random.rand(9...20), Random.rand(1...60), Random.rand(1...60)) , place: places[Random.rand(0..2)])
+          Visit.create(date_visit: DateTime.new(year,month,day, Random.rand(9...20), Random.rand(1...60), Random.rand(1...60)) , place: places[Random.rand(0..2)])
           nb_visites-=1
         end
       end
