@@ -1,5 +1,5 @@
 
-$(function(){
+$(document).on('turbolinks:load', function() {
 
 
   var dateFormat = 'yy-mm-dd',
@@ -74,8 +74,8 @@ $(function(){
       }
     }
 
+
     filters['id_place'] = $("#place_place_id").val();
-    console.log(filters);
     var datas = {
         start_date: filters['start_date'],
         end_date: filters['end_date'],
