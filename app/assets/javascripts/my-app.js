@@ -1,5 +1,5 @@
 
-$(function(){
+$(document).on('turbolinks:load', function() {
 
 
   var dateFormat = 'yy-mm-dd',
@@ -78,7 +78,7 @@ $(function(){
       filters['start_date'] = today
       filters['end_date'] = today
     }
-    
+
     console.log(filters);
     var place_id = $("#place_place_id").val();
     var datas = {

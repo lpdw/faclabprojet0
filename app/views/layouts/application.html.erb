@@ -14,9 +14,11 @@
 
   <body>
     <header>
+
         <nav>
             <ul>
-                <li class="active"><a href="<%= root_path %>">Home</a></li>
+
+                <li class="active"><%= link_to 'connexion' , root_path%></li>
                 <li class=""><%= link_to 'places' , places_path %></li>
                 <li class=""><%= link_to 'visits' , visits_path %></li>
                 <li></li>

@@ -13,7 +13,7 @@ default: &default
   adapter: mysql2
   encoding: utf8
   username: root
-  password:
+  password: root
   host: 127.0.0.1
   socket: /tmp/mysql.sock
   port: 3306
