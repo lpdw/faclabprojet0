@@ -54,7 +54,7 @@ class VisitsController < ApplicationController
       else
         chart_labels = labels_weeks
         # datas = getDatas(Date.today,"today",id_place)
-        datas = [1,2,3,4,5,6,7,8,9]
+        datas = [1,2,3,4,5]
 
         render :json => { :labels => chart_labels , :datas => datas }
       end ### end if user want datas with start_date and end_date

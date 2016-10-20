@@ -149,6 +149,14 @@ $(document).on('turbolinks:load', function() {
 
   function loadDatasForChart(chartType,labels,datas_from_db)
   {
+    var tabColors = [];
+    var tabBorderColor = [];
+
+    for (var i = 0; i < datas_from_db.length; i++) {
+      var color = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+      tabColors[i] = color;
+    }
+
     var datas = null;
     var options = null;
     var infos  = [];
@@ -181,27 +189,27 @@ $(document).on('turbolinks:load', function() {
     }
     else if (chartType === "bar")
     {
+      var colors = [];
+      for (var i = 0; i < tabColors.length; i++)
+      {
+        tabBorderColor[i] = tabColors[i].replace("rgb","");
+        tabBorderColor[i] = tabBorderColor[i].replace("(","");
+        tabBorderColor[i] = tabBorderColor[i].replace(")","");
+
+        colors[i] = 'rgba('+tabBorderColor[i]+',0.2)';
+        tabBorderColor[i] = 'rgba('+tabBorderColor[i]+',1)';
+      }
+
+      console.log(colors);
+      console.log(tabBorderColor);
+
       datas = {
         labels: labels,
         datasets: [
             {
                 label: "My First dataset",
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                backgroundColor: colors,
+                borderColor: tabBorderColor,
                 borderWidth: 1,
                 data: datas_from_db,
             }
@@ -265,20 +273,6 @@ $(document).on('turbolinks:load', function() {
     }
     else if (chartType === "pie")
     {
-      var tabColors = [];
-
-      for (var i = 0; i < datas_from_db.length; i++) {
-        var color = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
-        if(color == tabColors[i]){
-          console.log("couleur deja existante");
-        }
-        else {
-            tabColors[i] = color;
-        }
-      }
-      console.log(tabColors);
-
-
       datas = {
         labels: labels,
         datasets: [
