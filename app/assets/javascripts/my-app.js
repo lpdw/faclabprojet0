@@ -40,7 +40,7 @@ $(function(){
   // onChange on the filter "place"
   $("#place_place_id").on('change',function(){
     var filters = [];
-    filters['place_id'] = $(this).val();
+    filters['id_place'] = $(this).val();
     filters['start_date']   = start_date.val();
     filters['end_date']     = end_date.val();
     loadMyChartData(filters);
@@ -53,7 +53,7 @@ $(function(){
 
   $("#valider").on('click',function(){
     var filters = [];
-    filters['place_id'] = $("#place_id").val();
+    filters['id_place'] = $("#place_place_id").val();
     filters['start_date']   = start_date.val();
     filters['end_date']     = end_date.val();
     loadMyChartData(filters);
@@ -61,30 +61,25 @@ $(function(){
 
   function ajaxRequest(filters)
   {
-    if (typeof filters === 'undefined')
+    if (typeof filters === "undefined")
     {
-      var today = new Date();
-      var dd = today.getDate();
-      var mm = today.getMonth()+1; //January is 0!
-      var yyyy = today.getFullYear();
-
-      if(dd<10)
-        dd='0'+dd
-      if(mm<10)
-          mm='0'+mm
-      today = yyyy+"-"+dd+"-"+mm;
-
       var filters = [];
-      filters['start_date'] = today
-      filters['end_date'] = today
+      filters['start_date'] = getDateToday();
+      filters['end_date'] = getDateToday();
     }
-    
+    else {
+      if(filters['start_date'] === "" && filters['end_date'] === ""){
+        filters['start_date'] = getDateToday();
+        filters['end_date'] = getDateToday();
+      }
+    }
+
+    filters['id_place'] = $("#place_place_id").val();
     console.log(filters);
-    var place_id = $("#place_place_id").val();
     var datas = {
         start_date: filters['start_date'],
         end_date: filters['end_date'],
-        place_id: place_id
+        id_place: filters['id_place']
     };
 
     return $.ajax({
@@ -95,40 +90,26 @@ $(function(){
                 });
   }
 
-  /****************************************************************\
-          Affichage de la Chart
-  \****************************************************************/
   function loadMyChartData(filters)
   {
     //label "Stat du : X"
-    var date_stat = "";
+    var date_stat = null;
 
-    //recupere une promise qui va recuperer les infos depuis la bdd
-    var request = "";
+    var request = null;
 
     // Chargement de base de la charte
     if(typeof filters === "undefined")
     {
-      var date = new Date();
-      var dd = date.getDate();
-      var mm = date.getMonth()+1;
-      var yy = date.getFullYear();
-
-      console.log("Chargement de base loadMyChartData()");
       request = ajaxRequest(filters);
 
-      request.then(function(data){
-        DrawMyChart(data.labels,data.datas);
-      });
+      request.then(function(data){ DrawMyChart(data.labels,data.datas); });
       request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
     }
     else
     {
       request = ajaxRequest(filters);
 
-      request.then(function(data){
-         DrawMyChart(data.labels,data.datas);
-      });
+      request.then(function(data){ DrawMyChart(data.labels,data.datas); });
       request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
     }
   }
@@ -319,4 +300,18 @@ $(function(){
     return infos;
   }
 
+  function getDateToday()
+  {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+
+    if(dd<10)
+      dd='0'+dd;
+    if(mm<10)
+        mm='0'+mm;
+    today = yyyy+"-"+dd+"-"+mm;
+    return today;
+  }
 });
