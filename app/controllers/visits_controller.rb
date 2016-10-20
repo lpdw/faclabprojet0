@@ -9,6 +9,11 @@ class VisitsController < ApplicationController
     @visits = Visit.all
     @places = Place.all
 
+    respond_to do |format|
+      format.html
+      format.csv { render plain: @visits.to_csv }
+    end
+
     labels_hours = [9,10,11,12,13,14,15,16,17,18,19,20]
     labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
     labels_weeks = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
@@ -28,6 +33,10 @@ class VisitsController < ApplicationController
 
       place_id = params[:place_id]
 
+      # check if params['start_date'] == params['end_date']
+      #       and params['start_date'] == dateToday
+      #       and params['end_date'] == dateToday
+      #       Then getStatForToday
 
       #if init or we want a datas for today
       if start_date || end_date == today
@@ -52,7 +61,7 @@ class VisitsController < ApplicationController
       else
         chart_labels = labels_weeks
         # datas = getDatas(Date.today,"today",id_place)
-        datas = [1,2,3,4,5,6,7,8,9]
+        datas = [1,2,3,4,5]
 
         render :json => { :labels => chart_labels , :datas => datas }
       end ### end if user want datas with start_date and end_date

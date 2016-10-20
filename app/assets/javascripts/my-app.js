@@ -1,5 +1,5 @@
 
-$(function(){
+$(document).on('turbolinks:load', function() {
 
 
   var dateFormat = 'yy-mm-dd',
@@ -40,7 +40,7 @@ $(function(){
   // onChange on the filter "place"
   $("#place_place_id").on('change',function(){
     var filters = [];
-    filters['place_id'] = $(this).val();
+    filters['id_place'] = $(this).val();
     filters['start_date']   = start_date.val();
     filters['end_date']     = end_date.val();
     loadMyChartData(filters);
@@ -53,7 +53,7 @@ $(function(){
 
   $("#valider").on('click',function(){
     var filters = [];
-    filters['place_id'] = $("#place_id").val();
+    filters['id_place'] = $("#place_place_id").val();
     filters['start_date']   = start_date.val();
     filters['end_date']     = end_date.val();
     loadMyChartData(filters);
@@ -61,30 +61,25 @@ $(function(){
 
   function ajaxRequest(filters)
   {
-    if (typeof filters === 'undefined')
+    if (typeof filters === "undefined")
     {
-      var today = new Date();
-      var dd = today.getDate();
-      var mm = today.getMonth()+1; //January is 0!
-      var yyyy = today.getFullYear();
-
-      if(dd<10)
-        dd='0'+dd
-      if(mm<10)
-          mm='0'+mm
-      today = yyyy+"-"+dd+"-"+mm;
-
       var filters = [];
-      filters['start_date'] = today
-      filters['end_date'] = today
+      filters['start_date'] = getDateToday();
+      filters['end_date'] = getDateToday();
     }
-    
-    console.log(filters);
-    var place_id = $("#place_place_id").val();
+    else {
+      if(filters['start_date'] === "" && filters['end_date'] === ""){
+        filters['start_date'] = getDateToday();
+        filters['end_date'] = getDateToday();
+      }
+    }
+
+
+    filters['id_place'] = $("#place_place_id").val();
     var datas = {
         start_date: filters['start_date'],
         end_date: filters['end_date'],
-        place_id: place_id
+        id_place: filters['id_place']
     };
 
     return $.ajax({
@@ -95,40 +90,26 @@ $(function(){
                 });
   }
 
-  /****************************************************************\
-          Affichage de la Chart
-  \****************************************************************/
   function loadMyChartData(filters)
   {
     //label "Stat du : X"
-    var date_stat = "";
+    var date_stat = null;
 
-    //recupere une promise qui va recuperer les infos depuis la bdd
-    var request = "";
+    var request = null;
 
     // Chargement de base de la charte
     if(typeof filters === "undefined")
     {
-      var date = new Date();
-      var dd = date.getDate();
-      var mm = date.getMonth()+1;
-      var yy = date.getFullYear();
-
-      console.log("Chargement de base loadMyChartData()");
       request = ajaxRequest(filters);
 
-      request.then(function(data){
-        DrawMyChart(data.labels,data.datas);
-      });
+      request.then(function(data){ DrawMyChart(data.labels,data.datas); });
       request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
     }
     else
     {
       request = ajaxRequest(filters);
 
-      request.then(function(data){
-         DrawMyChart(data.labels,data.datas);
-      });
+      request.then(function(data){ DrawMyChart(data.labels,data.datas); });
       request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
     }
   }
@@ -168,6 +149,14 @@ $(function(){
 
   function loadDatasForChart(chartType,labels,datas_from_db)
   {
+    var tabColors = [];
+    var tabBorderColor = [];
+
+    for (var i = 0; i < datas_from_db.length; i++) {
+      var color = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+      tabColors[i] = color;
+    }
+
     var datas = null;
     var options = null;
     var infos  = [];
@@ -200,27 +189,27 @@ $(function(){
     }
     else if (chartType === "bar")
     {
+      var colors = [];
+      for (var i = 0; i < tabColors.length; i++)
+      {
+        tabBorderColor[i] = tabColors[i].replace("rgb","");
+        tabBorderColor[i] = tabBorderColor[i].replace("(","");
+        tabBorderColor[i] = tabBorderColor[i].replace(")","");
+
+        colors[i] = 'rgba('+tabBorderColor[i]+',0.2)';
+        tabBorderColor[i] = 'rgba('+tabBorderColor[i]+',1)';
+      }
+
+      console.log(colors);
+      console.log(tabBorderColor);
+
       datas = {
         labels: labels,
         datasets: [
             {
                 label: "My First dataset",
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                backgroundColor: colors,
+                borderColor: tabBorderColor,
                 borderWidth: 1,
                 data: datas_from_db,
             }
@@ -289,18 +278,8 @@ $(function(){
         datasets: [
             {
                 data: datas_from_db,
-                backgroundColor: [
-                    "#FF6384",
-                    "#36A2EB",
-                    "#FFCE56",
-                    "#df57b3",
-                ],
-                hoverBackgroundColor: [
-                    "#FF6384",
-                    "#36A2EB",
-                    "#FFCE56",
-                    "#df57b3",
-                ]
+                backgroundColor:tabColors,
+                hoverBackgroundColor: tabColors
             }]
       };
       options = {
@@ -319,4 +298,18 @@ $(function(){
     return infos;
   }
 
+  function getDateToday()
+  {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+
+    if(dd<10)
+      dd='0'+dd;
+    if(mm<10)
+        mm='0'+mm;
+    today = yyyy+"-"+dd+"-"+mm;
+    return today;
+  }
 });

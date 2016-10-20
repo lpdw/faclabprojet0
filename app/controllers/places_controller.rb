@@ -29,7 +29,7 @@ class PlacesController < ApplicationController
 
     respond_to do |format|
       if @place.save
-        format.html { redirect_to @place, notice: 'Le lieu '+@place.name+' a été créé !' }
+        format.html { redirect_to places_path, notice: 'Le lieu '+@place.name+' a été créé !' }
         format.json { render :show, status: :created, location: @place }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class PlacesController < ApplicationController
   def update
     respond_to do |format|
       if @place.update(place_params)
-        format.html { redirect_to @place, notice: 'Le lieu '+@place.name+' a été modifié !' }
+        format.html { redirect_to places_path, notice: 'Le lieu '+@place.name+' a été modifié !' }
         format.json { render :show, status: :ok, location: @place }
       else
         format.html { render :edit }
