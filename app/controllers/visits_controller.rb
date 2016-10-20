@@ -27,6 +27,10 @@ class VisitsController < ApplicationController
       yearFilter = params[:yearFilter]
       id_place = params[:id_place]
 
+      # check if params['start_date'] == params['end_date']
+      #       and params['start_date'] == dateToday
+      #       and params['end_date'] == dateToday
+      #       Then getStatForToday
 
       #if init or we want a datas for today
       if time_t.day.to_s == dayFilter && time_t.month.to_s == monthFilter && time_t.year.to_s == yearFilter

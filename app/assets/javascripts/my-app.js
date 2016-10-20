@@ -265,23 +265,27 @@ $(function(){
     }
     else if (chartType === "pie")
     {
+      var tabColors = [];
+
+      for (var i = 0; i < datas_from_db.length; i++) {
+        var color = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+        if(color == tabColors[i]){
+          console.log("couleur deja existante");
+        }
+        else {
+            tabColors[i] = color;
+        }
+      }
+      console.log(tabColors);
+
+
       datas = {
         labels: labels,
         datasets: [
             {
                 data: datas_from_db,
-                backgroundColor: [
-                    "#FF6384",
-                    "#36A2EB",
-                    "#FFCE56",
-                    "#df57b3",
-                ],
-                hoverBackgroundColor: [
-                    "#FF6384",
-                    "#36A2EB",
-                    "#FFCE56",
-                    "#df57b3",
-                ]
+                backgroundColor:tabColors,
+                hoverBackgroundColor: tabColors
             }]
       };
       options = {
