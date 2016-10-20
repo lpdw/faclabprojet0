@@ -9,6 +9,11 @@ class VisitsController < ApplicationController
     @visits = Visit.all
     @places = Place.all
 
+    respond_to do |format|
+      format.html
+      format.csv { render plain: @visits.to_csv }
+    end
+
     labels_hours = [9,10,11,12,13,14,15,16,17,18,19,20]
     labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
     labels_weeks = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
