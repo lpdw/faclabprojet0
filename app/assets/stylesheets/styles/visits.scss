@@ -5,6 +5,14 @@
 @import "base/mixins.scss";
 
 
+
+center{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
 body,html{
   background-color: $bgColor;
 }
@@ -29,12 +37,38 @@ canvas{
   background: $main_color!important;
   color: $text_white!important;
   border: none;
+
 }
-.ui-datepicker-calendar span{
-  color: $main_color!important;
+
+.ui-datepicker-calendar{
+  span{
+   color: $main_color!important;
+ }
+   .ui-state-default{
+      border: none!important;
+   &:hover{
+     background-color: $button_hover!important;
+
+   }
+ }
 }
 .ui-corner-all{
   &:hover{
   background: $text_white;
   }
+}
+///// lightbox
+
+#ui-datepicker-div{
+  z-index: 20!important;
+}
+.lightbox{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: none;
+  z-index: 15;
 }

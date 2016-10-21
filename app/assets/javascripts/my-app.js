@@ -305,4 +305,24 @@ $(document).on('turbolinks:load', function() {
     today = yyyy+"-"+dd+"-"+mm;
     return today;
   }
+
+
+  $('.hasDatepicker').click(function(){
+    if($('.lightbox').css('display','none')){
+      $('.lightbox').css('display','block');
+      $('td').click(function(){
+        $('.lightbox').css('display','none');
+      });
+    }
+    else{
+      $('.lightbox').css('display','none');
+    }
+  });
+  $('.lightbox').click(function(){
+    $('.lightbox').css('display','none');
+  });
+
+
+
+
 });

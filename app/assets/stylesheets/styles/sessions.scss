@@ -5,9 +5,15 @@
 @import "base/mixins.scss";
 
 
-/////// @TODO mettre media querie pc
+#messageAlerte{
+  width: 100%;
+  position: absolute;
+  color: red;
+  top: 132px;
+}
 
 #connexion{
+
   margin-top: 150px;
   header{
     h2{

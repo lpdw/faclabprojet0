@@ -54,11 +54,12 @@
             <%= select_date Date.today,:use_month_names => [t(:jan), t(:feb), t(:mar), t(:apr), t(:may), t(:jun), t(:jul), t(:aug), t(:sep), t(:oct), t(:nov), t(:dec)] ,prefix: :start_date %>
         <% end %>-->
 
-        <label for="from">Du</label>
-          <input type="text" id="start_date" name="start_date">
-        <label for="to">Au</label>
-          <input type="text" id="end_date" name="end_date">
+        <label for="from">Du<input type="text" id="start_date" name="start_date"/></label>
 
+        <label for="to">Au<input type="text" id="end_date" name="end_date"/></label>
+
+        <div class="lightbox">        
+        </div>
     </div>
     <button id="valider">valider</button>
 
