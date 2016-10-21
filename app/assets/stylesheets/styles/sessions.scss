@@ -2,9 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import "base/vars.scss";
+@import "base/mixins.scss";
 
 
 /////// @TODO mettre media querie pc
+
 #connexion{
   margin-top: 150px;
   header{
@@ -21,14 +23,17 @@
       width: 100%;
       &.formValidate{
         text-align: right;
+        width: 50%;
         input{
-          background-color: $main_color;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          text-transform: uppercase;
-          cursor: pointer;
+          @include button;
 
+        }
+      }
+      &.mdpOublie{
+        width: 50%;
+        text-align: left;
+        label{
+          color: $main_color;
         }
       }
 

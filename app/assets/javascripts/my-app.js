@@ -1,6 +1,28 @@
 
 $(document).on('turbolinks:load', function() {
 
+  var opts = {
+      lines: 11 // The number of lines to draw
+    , length: 28 // The length of each line
+    , width: 7 // The line thickness
+    , radius: 30 // The radius of the inner circle
+    , scale: 1 // Scales overall size of the spinner
+    , corners: 1 // Corner roundness (0..1)
+    , color: '#888' // #rgb or #rrggbb or array of colors
+    , opacity: 0.25 // Opacity of the lines
+    , rotate: 0 // The rotation offset
+    , direction: 1 // 1: clockwise, -1: counterclockwise
+    , speed: 1 // Rounds per second
+    , trail: 60 // Afterglow percentage
+    , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+    , zIndex: 2e9 // The z-index (defaults to 2000000000)
+    , className: 'spinner' // The CSS class to assign to the spinner
+    , top: '45%' // Top position relative to parent
+    , left: '50%' // Left position relative to parent
+    , shadow: false // Whether to render a shadow
+    , hwaccel: false // Whether to use hardware acceleration
+    // , position: 'absolute' // Element positioning
+  }
 
   var dateFormat = 'yy-mm-dd',
       start_date = $( "#start_date" )
@@ -17,6 +39,7 @@ $(document).on('turbolinks:load', function() {
         dateFormat: 'yy-mm-dd',
         defaultDate: "+1w",
         changeMonth: true,
+        maxDate: '+0m +0w',
         numberOfMonths: 1
       })
       .on( "change", function() {
@@ -34,8 +57,14 @@ $(document).on('turbolinks:load', function() {
     return date;
   }
 
-  //on charge une charte de base avec
   loadMyChartData();
+  var chartInstance = null;
+
+  $("#myChart").hide();
+
+  var target = document.getElementById('loading');
+  var spinner = new Spinner(opts).spin(target);
+  $(target).data('spinner', spinner);
 
   // onChange on the filter "place"
   $("#place_place_id").on('change',function(){
@@ -43,10 +72,15 @@ $(document).on('turbolinks:load', function() {
     filters['place_id'] = $(this).val();
     filters['start_date']   = start_date.val();
     filters['end_date']     = end_date.val();
+
+    var target = document.getElementById('loading');
+    var spinner = new Spinner(opts).spin(target);
+    $(target).data('spinner', spinner);
+
+    chartInstance.destroy();
     loadMyChartData(filters);
   });
-  
-  // onChange sur type de filtre que l'on veut
+
   $("#chartType").on('change',function(){
     $("#chartType").trigger('typeChanged');
   });
@@ -56,6 +90,12 @@ $(document).on('turbolinks:load', function() {
     filters['place_id'] = $("#place_place_id").val();
     filters['start_date']   = start_date.val();
     filters['end_date']     = end_date.val();
+
+    var target = document.getElementById('loading');
+    var spinner = new Spinner(opts).spin(target);
+    $(target).data('spinner', spinner);
+
+    chartInstance.destroy();
     loadMyChartData(filters);
   });
 
@@ -74,7 +114,6 @@ $(document).on('turbolinks:load', function() {
       }
     }
 
-
     filters['place_id'] = $("#place_place_id").val();
     var datas = {
         start_date: filters['start_date'],
@@ -92,9 +131,6 @@ $(document).on('turbolinks:load', function() {
 
   function loadMyChartData(filters)
   {
-    //label "Stat du : X"
-    var date_stat = null;
-
     var request = null;
 
     // Chargement de base de la charte
@@ -103,20 +139,22 @@ $(document).on('turbolinks:load', function() {
       request = ajaxRequest(filters);
 
       request.then(function(data){ DrawMyChart(data.labels,data.datas); });
-      request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
+      request.fail(function(err){console.log(err); });
     }
     else
     {
       request = ajaxRequest(filters);
 
       request.then(function(data){ DrawMyChart(data.labels,data.datas); });
-      request.fail(function(err){ $("#my-spin").hide(); console.log(err); });
+      request.fail(function(err){console.log(err); });
     }
   }
 
-  var chartInstance = null;
   function DrawMyChart(labels,datas_from_db)
   {
+    $('#loading').data('spinner').stop();
+    $("#myChart").show();
+
     console.log(datas_from_db);
     var infos = null;
     var ctx = document.getElementById("myChart").getContext("2d");

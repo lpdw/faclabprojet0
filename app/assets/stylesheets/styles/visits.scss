@@ -1,16 +1,40 @@
 // Place all the styles related to the Visits controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import "base/vars.scss";
+@import "base/mixins.scss";
 
-$bgColor : #e9ebee;
 
 body,html{
   background-color: $bgColor;
 }
 
 canvas{
-  background-color: #fff; 
+  background-color: #fff;
 }
-center{
-    background-color: green;
+
+
+#place_place_id, #chartType, #valider{
+  @include button;
+  option{
+    &:hover{
+      background-color: white!important;
+      color: $main_color!important;
+    }
+  }
+}
+/////  le calendrier
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-datepicker-header, .ui-datepicker-header select{
+  background: $main_color!important;
+  color: $text_white!important;
+  border: none;
+}
+.ui-datepicker-calendar span{
+  color: $main_color!important;
+}
+.ui-corner-all{
+  &:hover{
+  background: $text_white;
+  }
 }

@@ -26,8 +26,6 @@
 <br>
 <%= link_to 'New Visit', new_visit_path %> -->
 
-<div id="my-spin"></div>
-
 <center>
   <%= form_tag '' , method: 'post' do %>
 
@@ -37,7 +35,8 @@
 
   <% end %>
 
-  <div id="js-legend" class="chart-legend"></div>
+  <div id="loading"></div>
+  <!-- <div id="js-legend" class="chart-legend"></div> -->
   <div style="width:400px;margin-top:2em">
     <canvas id="myChart"></canvas>
   </div>

@@ -32,6 +32,7 @@ class VisitsController < ApplicationController
       end_date = params[:end_date]
 
       place_id = params[:place_id]
+
       #if init or we want a datas for today
       if start_date == today
 
@@ -46,7 +47,6 @@ class VisitsController < ApplicationController
           #recovery stats at the time of connection (time T)
           chart_labels = labels_hours
           # datas = getDatas(Date.today,"today",id_place,labels_hours)
-          #datas = [1,5,3,4,2,6,5,6,2,8,3,7]
           datas = getDatas(start_date,end_date,place_id,today)
 
         end ### end if week
@@ -60,9 +60,7 @@ class VisitsController < ApplicationController
         render :json => { :labels => chart_labels , :datas => datas }
       end ### end if user want datas with start_date and end_date
 
-      puts datas.inspect
     end # end request xhr?
-
 
   end
 
@@ -83,7 +81,12 @@ class VisitsController < ApplicationController
 
     datas = Array.new
     hour_include = []
+
     if (start_date || end_date ) == today || start_date == end_date || end_date == start_date
+
+
+    #if (start_date || end_date) == today || (start_date && end_date) == today || (start_date == end_date)
+
       hour_start = 9
       #hour_end   = 10
       #minute_start = 00
@@ -130,7 +133,7 @@ class VisitsController < ApplicationController
                                   month_end_strip,
                                   year_start,
                                   year_end,
-                                
+
                                   ).count
                                   month_start += 1
 
