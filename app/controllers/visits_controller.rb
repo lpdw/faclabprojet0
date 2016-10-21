@@ -33,13 +33,8 @@ class VisitsController < ApplicationController
 
       place_id = params[:place_id]
 
-      # check if params['start_date'] == params['end_date']
-      #       and params['start_date'] == dateToday
-      #       and params['end_date'] == dateToday
-      #       Then getStatForToday
-
       #if init or we want a datas for today
-      if start_date || end_date == today
+      if start_date == today
 
         #check if weeks day
         week = date_now.saturday? || date_now.sunday?
@@ -47,28 +42,25 @@ class VisitsController < ApplicationController
         if week
           chart_labels = labels_weeks
           # datas = getDatas(type_labels)
-          datas = [6,5,8,7,9]
+          datas = getDatas(start_date,end_date,place_id,today)
         else
           #recovery stats at the time of connection (time T)
           chart_labels = labels_hours
           # datas = getDatas(Date.today,"today",id_place,labels_hours)
-          #datas = [1,5,3,4,2,6,5,6,2,8,3,7]
           datas = getDatas(start_date,end_date,place_id,today)
 
         end ### end if week
 
         render :json => { :labels => chart_labels , :datas => datas }
       else
-        chart_labels = labels_weeks
+        chart_labels = labels_months
         # datas = getDatas(Date.today,"today",id_place)
-        datas = [1,2,3,4,5]
+        datas = getDatas(start_date,end_date,place_id,today)
 
         render :json => { :labels => chart_labels , :datas => datas }
       end ### end if user want datas with start_date and end_date
 
-      puts datas.inspect
     end # end request xhr?
-
 
   end
 
@@ -89,8 +81,12 @@ class VisitsController < ApplicationController
 
     datas = Array.new
     hour_include = []
-    test = Array.new
-    if (start_date || end_date) == today || (start_date && end_date) == today || (start_date == end_date) || (end_date == start_date)
+
+    if (start_date || end_date ) == today || start_date == end_date || end_date == start_date
+
+
+    #if (start_date || end_date) == today || (start_date && end_date) == today || (start_date == end_date)
+
       hour_start = 9
       #hour_end   = 10
       #minute_start = 00
@@ -111,30 +107,62 @@ class VisitsController < ApplicationController
                   #end
                   i += 1
                 end
+                Rails.logger.debug("In first query")
 
-
-                  #logger.debug(data.inspect)
-
-      else
+      elsif start_date != end_date || end_date != start_date
       #Recuperation des données données de la semaine a partir du filtre
-      datas = Visit.where('place_id = ?
-                            AND DATE(date_visit) BETWEEN ? AND ?',
-                            place_id,
-                            start_date,
-                            end_date
-                          ).select("date_visit")
-        datas.each do |d|
-        hour_include = d["date_visit"]
-        hour_split   = hour_include.strftime("%H:%M").count(hour_include)
-      if hour_split >= "09:00" && hour_split <= "09:59"
-          from_end_nine_hour = hour_include
-          counted = datas.length()
+      month_start_strip = Date.strptime(start_date,'%Y-%m-%d').to_date
+      month_end_strip   = Date.strptime(end_date,'%Y-%m-%d').to_date
+      month_start = month_start_strip.month
+      month_end   = month_end_strip.month
+      year_start  = month_start_strip.year
+      year_end    = month_end_strip.year
+      puts year_start.inspect
+      puts year_end.inspect
 
-          end
+      if year_start != year_end
+        i= 0
+        difference_between_year = year_end - year_start
+        puts difference_between_year.inspect
+        while year_start < year_end do
+          while month_start != month_end do
+            datas[i] = Visit.where('place_id = ?
+                                  AND DATE(date_visit) BETWEEN DATE(?) AND DATE(?) AND YEAR(date_visit) BETWEEN ? AND ? ',
+                                  place_id,
+                                  month_start_strip,
+                                  month_end_strip,
+                                  year_start,
+                                  year_end,
 
+                                  ).count
+                                  month_start += 1
 
+                                  i += 1
+                                  puts year_start.inspect
+
+                                end
+                                year_start += difference_between_year
+                                puts datas.inspect
+                              end
+
+        Rails.logger.debug("In Year different")
+      else
+      i= 0
+      while month_start != month_end do
+        datas[i] = Visit.where('place_id = ?
+                                AND MONTH(date_visit) = ?',
+                                place_id,
+                                month_start,
+
+                                ).count
+                                month_start += 1
+                                i += 1
+                                puts datas.inspect
+
+     end
+      Rails.logger.debug("In same Year")
       end
-
+      Rails.logger.debug("In second query")
     end
 
     return datas
