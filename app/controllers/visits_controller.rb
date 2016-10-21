@@ -9,12 +9,18 @@ class VisitsController < ApplicationController
     @visits = Visit.all
     @places = Place.all
 
+    respond_to do |format|
+      format.html
+      format.csv { render plain: @visits.to_csv }
+    end
+
     labels_hours = [9,10,11,12,13,14,15,16,17,18,19,20]
     labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
     labels_weeks = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"]
 
     time_t = Time.now
-    today = Date.today
+    date_now = Date.today
+    today    = date_now.to_s(:db)
 
     chart_labels = Array.new
 
@@ -22,17 +28,21 @@ class VisitsController < ApplicationController
     if request.xhr?
 
       # get datas from params
-      dayFilter = params[:dayFilter]
-      monthFilter = params[:monthFilter]
-      yearFilter = params[:yearFilter]
-      id_place = params[:id_place]
+      start_date = params[:start_date]
+      end_date = params[:end_date]
 
+      place_id = params[:place_id]
+
+      # check if params['start_date'] == params['end_date']
+      #       and params['start_date'] == dateToday
+      #       and params['end_date'] == dateToday
+      #       Then getStatForToday
 
       #if init or we want a datas for today
-      if time_t.day.to_s == dayFilter && time_t.month.to_s == monthFilter && time_t.year.to_s == yearFilter
+      if start_date || end_date == today
 
         #check if weeks day
-        week = today.saturday? || today.sunday?
+        week = date_now.saturday? || date_now.sunday?
 
         if week
           chart_labels = labels_weeks
@@ -42,25 +52,29 @@ class VisitsController < ApplicationController
           #recovery stats at the time of connection (time T)
           chart_labels = labels_hours
           # datas = getDatas(Date.today,"today",id_place,labels_hours)
-          datas = [1,5,3,4,2,6,5,6,2,8,3,7]
-          datas = getDatas()
+          #datas = [1,5,3,4,2,6,5,6,2,8,3,7]
+          datas = getDatas(start_date,end_date,place_id,today)
+
         end ### end if week
 
         render :json => { :labels => chart_labels , :datas => datas }
       else
         chart_labels = labels_weeks
         # datas = getDatas(Date.today,"today",id_place)
-        datas = [1,2,3,4,5,6,7,8,9]
+        datas = [1,2,3,4,5]
 
         render :json => { :labels => chart_labels , :datas => datas }
       end ### end if user want datas with start_date and end_date
 
+      puts datas.inspect
     end # end request xhr?
+
+
   end
 
   #####################################################################################################################
 
-  def getDatas(time,type_labels,id_place,labels_hours)
+  def getDatas(start_date,end_date,place_id,today)
 
     ############ Optimise this function to select data and charge the chartjs
                 # visitFromFinder = Visit.where(['date_visit like ? and place_id = ?', "%#{now}%", params[:place_id]])
@@ -71,23 +85,56 @@ class VisitsController < ApplicationController
     #   labels = labels_hours
     # end
 
+    # It's impossible to define or request a visit who did'nt append - this is why we should disable year/month/day if is different from today
+
     datas = Array.new
-
-    if type_labels == "today"
+    hour_include = []
+    test = Array.new
+    if (start_date || end_date) == today || (start_date && end_date) == today || (start_date == end_date) || (end_date == start_date)
       hour_start = 9
-
-        Visit.where(
+      #hour_end   = 10
+      #minute_start = 00
+      #minute_end = 59
+      i = 0
+      while hour_start <= 20 do
+        datas[i] = Visit.where(
                      'place_id = ?
-                      AND DATE(date_visit) LIKE ?
-                      AND HOUR(date_visit) BETWEEN  ? and ?',
-                      id_place,
-                      time.to_s,
-                      labels_hours[item-1],
-                      labels_hours[item]
-                    )
+                      AND DATE(date_visit) = ? AND HOUR(date_visit) = ?',
+                      place_id,
+                      today,
+                      hour_start,
+                    ).count
+                  hour_start += 1
+                  #hour_end += 1
+                  #datas.each do |d|
+                    puts datas.inspect
+                  #end
+                  i += 1
+                end
+
+
+                  #logger.debug(data.inspect)
+
       else
       #Recuperation des données données de la semaine a partir du filtre
-      datas = Visit.where()
+      datas = Visit.where('place_id = ?
+                            AND DATE(date_visit) BETWEEN ? AND ?',
+                            place_id,
+                            start_date,
+                            end_date
+                          ).select("date_visit")
+        datas.each do |d|
+        hour_include = d["date_visit"]
+        hour_split   = hour_include.strftime("%H:%M").count(hour_include)
+      if hour_split >= "09:00" && hour_split <= "09:59"
+          from_end_nine_hour = hour_include
+          counted = datas.length()
+
+          end
+
+
+      end
+
     end
 
     return datas
