@@ -5,6 +5,7 @@
 
 
 /////// @TODO mettre media querie pc
+
 #connexion{
   margin-top: 150px;
   header{
@@ -21,6 +22,7 @@
       width: 100%;
       &.formValidate{
         text-align: right;
+        width: 50%;
         input{
           background-color: $main_color;
           color: white;
@@ -29,6 +31,13 @@
           text-transform: uppercase;
           cursor: pointer;
 
+        }
+      }
+      &.mdpOublie{
+        width: 50%;
+        text-align: left;
+        label{
+          color: $main_color;
         }
       }
 

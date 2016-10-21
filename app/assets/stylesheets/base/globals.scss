@@ -47,6 +47,7 @@ nav{
 section{
     justify-content: center;
     display: flex;
+    flex-wrap: wrap;
     &>article{
       text-align: center;
       display: flex;

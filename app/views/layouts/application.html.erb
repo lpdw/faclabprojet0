@@ -27,9 +27,11 @@
     </header>
     <main>
         <section>
+          <article id="messageAlerte">
             <% flash.each do |message_type, message| %>
               <%= message %>
             <% end %>
+          </article>
             <%= yield %>
         </section>
         <aside>
