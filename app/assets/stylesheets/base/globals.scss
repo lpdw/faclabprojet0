@@ -45,6 +45,9 @@ nav{
                 align-items: center;
                 width: 100%;
                 justify-content: center;
+                &:active{
+                       background-color: $button_hover;
+                   }
                 &:hover{
                   background-color: $button_hover;
                   cursor: pointer;
@@ -52,6 +55,7 @@ nav{
                 &.active{
                        background-color: $button_hover;
                    }
+
 
 
             }
