@@ -7,6 +7,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' , :recursive => true %>
     <%= javascript_include_tag 'application',media: 'all', 'data-turbolinks-track': 'reload' , :recursive => true %>
+    <script src="http://spin.js.org/spin.min.js"></script>
   </head>
 
 
@@ -15,11 +16,14 @@
   <body>
     <header>
 
-        <nav>
+
+
+
+        <nav class="subnav">
             <ul>
-                <li class="active"><%= link_to 'connexion' , root_path%></li>
-                <li class=""><%= link_to 'places' , places_path %></li>
-                <li class=""><%= link_to 'visits' , visits_path %></li>
+                <li><%= link_to 'connexion' , root_path, :class => current_class?(root_path) %></li>
+                <li><%= link_to 'places' , places_path, :class => current_class?(places_path)  %></li>
+                <li><%= link_to 'visits' , visits_path, :class => current_class?(visits_path)  %></li>
                 <li></li>
             </ul>
         </nav>
