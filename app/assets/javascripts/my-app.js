@@ -1,7 +1,6 @@
 
 $(document).on('turbolinks:load', function() {
 
-
   var dateFormat = 'yy-mm-dd',
       start_date = $( "#start_date" )
         .datepicker({
@@ -34,7 +33,6 @@ $(document).on('turbolinks:load', function() {
     return date;
   }
 
-  //on charge une charte de base avec
   loadMyChartData();
 
   // onChange on the filter "place"
@@ -46,7 +44,6 @@ $(document).on('turbolinks:load', function() {
     loadMyChartData(filters);
   });
 
-  // onChange sur type de filtre que l'on veut
   $("#chartType").on('change',function(){
     $("#chartType").trigger('typeChanged');
   });
@@ -74,7 +71,6 @@ $(document).on('turbolinks:load', function() {
       }
     }
 
-
     filters['id_place'] = $("#place_place_id").val();
     var datas = {
         start_date: filters['start_date'],
@@ -92,9 +88,6 @@ $(document).on('turbolinks:load', function() {
 
   function loadMyChartData(filters)
   {
-    //label "Stat du : X"
-    var date_stat = null;
-
     var request = null;
 
     // Chargement de base de la charte
