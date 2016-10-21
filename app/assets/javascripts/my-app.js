@@ -40,12 +40,12 @@ $(document).on('turbolinks:load', function() {
   // onChange on the filter "place"
   $("#place_place_id").on('change',function(){
     var filters = [];
-    filters['id_place'] = $(this).val();
+    filters['place_id'] = $(this).val();
     filters['start_date']   = start_date.val();
     filters['end_date']     = end_date.val();
     loadMyChartData(filters);
   });
-
+  
   // onChange sur type de filtre que l'on veut
   $("#chartType").on('change',function(){
     $("#chartType").trigger('typeChanged');
@@ -53,7 +53,7 @@ $(document).on('turbolinks:load', function() {
 
   $("#valider").on('click',function(){
     var filters = [];
-    filters['id_place'] = $("#place_place_id").val();
+    filters['place_id'] = $("#place_place_id").val();
     filters['start_date']   = start_date.val();
     filters['end_date']     = end_date.val();
     loadMyChartData(filters);
@@ -75,11 +75,11 @@ $(document).on('turbolinks:load', function() {
     }
 
 
-    filters['id_place'] = $("#place_place_id").val();
+    filters['place_id'] = $("#place_place_id").val();
     var datas = {
         start_date: filters['start_date'],
         end_date: filters['end_date'],
-        id_place: filters['id_place']
+        place_id: filters['place_id']
     };
 
     return $.ajax({
