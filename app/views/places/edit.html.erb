@@ -1,7 +1,8 @@
-<section>
-  <h1>Modification de la place : <%= @place.name %></h1>
-
+<article id="modif_places">
+  <header>
+    <h2>Modification de la place : <%= @place.name %></h2>
+  </header>
   <%= render 'form', place: @place %>
 
   <%= button_to 'Retour à l\'index', places_path, :method => "get" %>
-</section>
+</article>

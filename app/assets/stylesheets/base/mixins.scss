@@ -13,3 +13,11 @@
   text-transform: uppercase;
   cursor: pointer;
 }
+@mixin button_hover{
+  opacity: 0.8;
+}
+@mixin h2_pc{
+  text-transform: uppercase;
+  color: $main_color;
+  font-size: $h2_size;
+}

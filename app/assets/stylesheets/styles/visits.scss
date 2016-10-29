@@ -24,6 +24,9 @@ canvas{
 
 #place_place_id, #chartType, #valider{
   @include button;
+  &:hover{
+    @include  button_hover;
+  }
   option{
     &:hover{
       background-color: white!important;

@@ -8,6 +8,55 @@
 
 
 #places {
+  display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 100px;
+  span{
+    align-self: center;
+  }
+  h2{
+    @include h2_pc;
+    margin-bottom: 50px;
+  }
+  input{
+    @include button;
+    margin: 4px;
+    &:hover{
+    @include  button_hover;
+    }
+  }
+}
+#modif_places, #ajout_lieux{
+  display: flex;
+  margin-top: 100px;
+  .new_place{
+    display: flex;
+  }
+  h2{
+    @include h2_pc;
+    margin-bottom: 50px;
+  }
+  .actions input, .button_to input{
+    @include button;
+    margin: 4px;
+    &:hover{
+    @include  button_hover;
+    }
+  }
+  .field input{
+    border: none;
+    border-bottom: 1px solid $main_color;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    cursor: auto;
+  }
+  .edit_place, .button_to{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+.place-info{
+  display: flex;
 }
