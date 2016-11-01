@@ -28,146 +28,106 @@ class VisitsController < ApplicationController
     if request.xhr?
 
       # get datas from params
-      start_date = params[:start_date]
-      end_date = params[:end_date]
+      start_date  = !params[:start_date].empty? ? params[:start_date] : today
+      end_date    = !params[:end_date].empty?   ? params[:end_date]   : today
+      place_id    =  params[:place_id]
 
-      place_id = params[:place_id]
+      #Get date parsed for comparison
+      start_date_parse = Date.parse(start_date)
+      end_date_parse   = Date.parse(end_date)
+      #Get value splitted for unique comparison
+      month_start = start_date_parse.month
+      month_end   = end_date_parse.month
+      year_start  = start_date_parse.year
+      year_end    = end_date_parse.year
+      #Get difference between two dates
+      difference_of_day = end_date_parse - start_date_parse
+      difference_of_year = year_end - year_start
+      #Get an instance of start_date, used to loop and override date
+      increment_date = Date.parse(start_date)
+      #Get difference between two months
+      difference_of_month = month_end - month_start
 
-      #if init or we want a datas for today
-      if start_date == today
-
-        #check if weeks day
-        week = date_now.saturday? || date_now.sunday?
-
-        if week
-          chart_labels = labels_weeks
-          # datas = getDatas(type_labels)
-          datas = getDatas(start_date,end_date,place_id,today)
-        else
-          #recovery stats at the time of connection (time T)
-          chart_labels = labels_hours
-          # datas = getDatas(Date.today,"today",id_place,labels_hours)
-          datas = getDatas(start_date,end_date,place_id,today)
-
-        end ### end if week
-
-        render :json => { :labels => chart_labels , :datas => datas }
-      else
-        chart_labels = labels_months
-        # datas = getDatas(Date.today,"today",id_place)
-        datas = getDatas(start_date,end_date,place_id,today)
-
-        render :json => { :labels => chart_labels , :datas => datas }
-      end ### end if user want datas with start_date and end_date
-
-    end # end request xhr?
-
-  end
-
-  #####################################################################################################################
-
-  def getDatas(start_date,end_date,place_id,today)
-
-    ############ Optimise this function to select data and charge the chartjs
-                # visitFromFinder = Visit.where(['date_visit like ? and place_id = ?', "%#{now}%", params[:place_id]])
-                # countVisit    = visitFromFinder.count
-    ###################
-    # if countVisit
-      # datas = [countVisit]
-    #   labels = labels_hours
-    # end
-
-    # It's impossible to define or request a visit who did'nt append - this is why we should disable year/month/day if is different from today
-
-    datas = Array.new
-    hour_include = []
-
-    if (start_date || end_date ) == today || start_date == end_date || end_date == start_date
-
-
-    #if (start_date || end_date) == today || (start_date && end_date) == today || (start_date == end_date)
-
-      hour_start = 9
-      #hour_end   = 10
-      #minute_start = 00
-      #minute_end = 59
+      labels = Array.new
+      visit  = Array.new
       i = 0
-      while hour_start <= 20 do
-        datas[i] = Visit.where(
-                     'place_id = ?
-                      AND DATE(date_visit) = ? AND HOUR(date_visit) = ?',
-                      place_id,
-                      today,
-                      hour_start,
-                    ).count
-                  hour_start += 1
-                  #hour_end += 1
-                  #datas.each do |d|
-                    puts datas.inspect
-                  #end
+      #Test if date selected isn't different of today, Then get visits every Hours
+      if (start_date == today && end_date == today)
+          puts "in today"
+          datas = Visit.get_datas_for_hours(place_id,today,9,20)
+
+          datas.each do |data|
+            labels[i] = data['labels']
+            visit[i]  = data['datas']
+            i += 1
+          end
+
+    elsif ((!start_date.empty?) && end_date == today || (start_date == end_date && end_date == start_date))
+      puts "in start_date"
+      datas = Visit.get_datas_for_hours(place_id,start_date,9,20)
+
+      datas.each do |data|
+        labels[i] = data['labels']
+        visit[i]  = data['datas']
+        i += 1
+      end
+
+    elsif ((!end_date.empty?) && start_date == today)
+      puts "in end_date"
+      datas = Visit.get_datas_for_hours(place_id,end_date,9,20)
+
+      datas.each do |data|
+        labels[i] = data['labels']
+        visit[i]  = data['datas']
+        i += 1
+      end
+        #Test if datepicker left and right are did'nt equal
+      else start_date != end_date && end_date != start_date
+
+        if difference_of_day <= 30 && difference_of_year == 0
+                puts "in days"
+                datas = Visit.get_datas_for_days(place_id,start_date_parse,end_date_parse,month_start)
+                datas.each do |data|
+                  labels[i] = data['labels']
+                  visit[i]  = data['datas']
                   i += 1
                 end
-                Rails.logger.debug("In first query")
 
-      elsif start_date != end_date || end_date != start_date
-      #Recuperation des données données de la semaine a partir du filtre
-      month_start_strip = Date.strptime(start_date,'%Y-%m-%d').to_date
-      month_end_strip   = Date.strptime(end_date,'%Y-%m-%d').to_date
-      month_start = month_start_strip.month
-      month_end   = month_end_strip.month
-      year_start  = month_start_strip.year
-      year_end    = month_end_strip.year
-      puts year_start.inspect
-      puts year_end.inspect
+            elsif difference_of_year == 0 && difference_of_day > 30
 
-      if year_start != year_end
-        i= 0
-        difference_between_year = year_end - year_start
-        puts difference_between_year.inspect
-        while year_start < year_end do
-          while month_start != month_end do
-            datas[i] = Visit.where('place_id = ?
-                                  AND DATE(date_visit) BETWEEN DATE(?) AND DATE(?) AND YEAR(date_visit) BETWEEN ? AND ? ',
-                                  place_id,
-                                  month_start_strip,
-                                  month_end_strip,
-                                  year_start,
-                                  year_end,
+              if difference_of_month <= 5
+                puts "in months <= 5"
+                datas = Visit.get_datas_for_weeks(place_id,end_date_parse,increment_date,start_date_parse)
+                datas.each do |data|
+                  labels[i] = data['labels']
+                  visit[i]  = data['datas']
+                  i += 1
+                end
+              #Difference between two dates >5, Then get visits every months
+              else
+                puts "in months > 5"
+                datas = Visit.get_datas_for_months(place_id,month_start,month_end)
+                datas.each do |data|
+                  labels[i] = data['labels']
+                  visit[i]  = data['datas']
+                  i += 1
+                end
+              end
 
-                                  ).count
-                                  month_start += 1
+            else difference_of_year != 0
+                puts "in year different"
+                datas = Visit.get_datas_for_years(place_id,start_date_parse,end_date_parse,increment_date)
+                datas.each do |data|
+                  labels[i] = data['labels']
+                  visit[i]  = data['datas']
+                  i += 1
+                end
+            end
 
-                                  i += 1
-                                  puts year_start.inspect
-
-                                end
-                                year_start += difference_between_year
-                                puts datas.inspect
-                              end
-
-        Rails.logger.debug("In Year different")
-      else
-      i= 0
-      while month_start != month_end do
-        datas[i] = Visit.where('place_id = ?
-                                AND MONTH(date_visit) = ?',
-                                place_id,
-                                month_start,
-
-                                ).count
-                                month_start += 1
-                                i += 1
-                                puts datas.inspect
-
-     end
-      Rails.logger.debug("In same Year")
-      end
-      Rails.logger.debug("In second query")
-    end
-
-    return datas
-  end
-
+         end #END if (start_date || end_date ) == today || start_date == end_date || end_date == start_date
+         render :json => { :labels => labels , :datas => visit }
+      end #END xhr request
+    end # end def index
 
   # GET /visits/1
   # GET /visits/1.json
@@ -199,22 +159,6 @@ class VisitsController < ApplicationController
       end
     end
   end
-
-  # PATCH/PUT /visits/1
-  # PATCH/PUT /visits/1.json
-=begin
-  def update
-    respond_to do |format|
-      if @visit.update(visit_params)
-        format.html { redirect_to @visit, notice: 'Visit was successfully updated.' }
-        format.json { render :show, status: :ok, location: @visit }
-      else
-        format.html { render :edit }
-        format.json { render json: @visit.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-=end
 
   # DELETE /visits/1
   # DELETE /visits/1.json

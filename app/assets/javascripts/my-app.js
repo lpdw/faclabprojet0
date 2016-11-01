@@ -347,7 +347,7 @@ $(document).on('turbolinks:load', function() {
       dd='0'+dd;
     if(mm<10)
         mm='0'+mm;
-    today = yyyy+"-"+dd+"-"+mm;
+    today = yyyy+"-"+mm+"-"+dd;
     return today;
   }
 
