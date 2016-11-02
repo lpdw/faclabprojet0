@@ -52,6 +52,8 @@ class VisitsController < ApplicationController
       visit  = Array.new
       i = 0
       #Test if date selected isn't different of today, Then get visits every Hours
+    if(start_date_parse <= date_now += 1.days || end_date_parse <= date_now += 1.days)
+
       if (start_date == today && end_date == today)
           puts "in today"
           datas = Visit.get_datas_for_hours(place_id,today,9,20)
@@ -123,9 +125,11 @@ class VisitsController < ApplicationController
                   i += 1
                 end
             end
-
          end #END if (start_date || end_date ) == today || start_date == end_date || end_date == start_date
          render :json => { :labels => labels , :datas => visit }
+       else
+         puts 'Erros : Wrong date given !'
+       end
       end #END xhr request
     end # end def index
 

@@ -30,6 +30,7 @@ $(document).on('turbolinks:load', function() {
           dateFormat: 'yy-mm-dd',
           defaultDate: "+1w",
           changeMonth: true,
+          maxDate: '+0m +0w',
           numberOfMonths: 1
         })
         .on( "change", function() {
