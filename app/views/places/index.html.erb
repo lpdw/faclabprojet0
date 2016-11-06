@@ -11,6 +11,6 @@
         <div><%= button_to 'Supprimer', place, method: :delete, data: { confirm: 'Vous êtes sur le point de supprimer le lieu : "'+place.name+'". Continuer malgré tout ?' } %></div>
       </div>
     <% end %>
-    <div><%= button_to 'Ajouter un lieu', new_place_path, :method => "get" %></div>
+    <div class="add_place"><%= button_to 'Ajouter un lieu', new_place_path, :method => "get" %></div>
   </article>
 </section>

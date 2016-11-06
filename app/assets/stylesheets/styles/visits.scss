@@ -34,6 +34,12 @@ canvas{
     }
   }
 }
+#chartType, #valider{
+  margin-bottom: 15px;
+}
+#valider{
+  margin-top: 15px;
+}
 /////  le calendrier
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-datepicker-header, .ui-datepicker-header select{
@@ -74,4 +80,26 @@ canvas{
   background-color: rgba(0,0,0,0.5);
   display: none;
   z-index: 15;
+}
+/// media queries
+
+@media screen and (max-width: 768px){
+  //// schema
+  section{
+    max-width: 90%;
+    center{
+      width: 100%;
+      &>div{
+        width: 100%!important;
+      }
+    }
+
+  }
+  #myChart{
+    width: 100%;
+  }
+  #ui-datepicker-div{
+    left: 12%!important;
+  }
+
 }
