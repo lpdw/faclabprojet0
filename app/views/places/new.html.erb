@@ -1,0 +1,8 @@
+<article id="ajout_lieux">
+  <header>
+    <h2>Ajouter un lieu</h2>
+  </header>
+  <%= render 'form', place: @place %>
+
+  <%= button_to 'Retour à l\'index', places_path, :method => "get" %>
+</article>

@@ -1,0 +1,105 @@
+// Place all the styles related to the Visits controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "base/vars.scss";
+@import "base/mixins.scss";
+
+
+
+center{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
+body,html{
+  background-color: $bgColor;
+}
+
+canvas{
+  background-color: #fff;
+}
+
+
+#place_place_id, #chartType, #valider{
+  @include button;
+  &:hover{
+    @include  button_hover;
+  }
+  option{
+    &:hover{
+      background-color: white!important;
+      color: $main_color!important;
+    }
+  }
+}
+#chartType, #valider{
+  margin-bottom: 15px;
+}
+#valider{
+  margin-top: 15px;
+}
+/////  le calendrier
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-datepicker-header, .ui-datepicker-header select{
+  background: $main_color!important;
+  color: $text_white!important;
+  border: none;
+
+}
+
+.ui-datepicker-calendar{
+  span{
+   color: $main_color!important;
+ }
+   .ui-state-default{
+      border: none!important;
+   &:hover{
+     background-color: $button_hover!important;
+
+   }
+ }
+}
+.ui-corner-all{
+  &:hover{
+  background: $text_white;
+  }
+}
+///// lightbox
+
+#ui-datepicker-div{
+  z-index: 20!important;
+}
+.lightbox{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: none;
+  z-index: 15;
+}
+/// media queries
+
+@media screen and (max-width: 768px){
+  //// schema
+  section{
+    max-width: 90%;
+    center{
+      width: 100%;
+      &>div{
+        width: 100%!important;
+      }
+    }
+
+  }
+  #myChart{
+    width: 100%;
+  }
+  #ui-datepicker-div{
+    left: 12%!important;
+  }
+
+}

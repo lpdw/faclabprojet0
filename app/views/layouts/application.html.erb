@@ -1,14 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <title>Faclabprojet0</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width" />
     <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' , :recursive => true %>
+    <%= javascript_include_tag 'application',media: 'all', 'data-turbolinks-track': 'reload' , :recursive => true %>
+    <script src="http://spin.js.org/spin.min.js"></script>
   </head>
 
+
+
+
   <body>
-    <%= yield %>
+    <header>
+
+
+
+
+        <nav class="subnav">
+            <ul>
+                <li><%= link_to 'connexion' , root_path, :class => current_class?(root_path) %></li>
+                <li><%= link_to 'places' , places_path, :class => current_class?(places_path)  %></li>
+                <li><%= link_to 'visits' , visits_path, :class => current_class?(visits_path)  %></li>
+                <li></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+          <article id="messageAlerte">
+            <% flash.each do |message_type, message| %>
+              <%= message %>
+            <% end %>
+          </article>
+            <%= yield %>
+        </section>
+        <aside>
+
+        </aside>
+    </main>
+
+    <footer>
+
+    </footer>
   </body>
+
+
+
+
+
+
 </html>

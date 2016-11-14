@@ -1,0 +1,8 @@
+<article id="modif_places">
+  <header>
+    <h2>Modification de la place : <%= @place.name %></h2>
+  </header>
+  <%= render 'form', place: @place %>
+
+  <%= button_to 'Retour à l\'index', places_path, :method => "get" %>
+</article>

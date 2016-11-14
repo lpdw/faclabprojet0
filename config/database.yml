@@ -12,21 +12,22 @@
 default: &default
   adapter: mysql2
   encoding: utf8
-  pool: 5
   username: root
-  password:
+  password: 
+  host: 127.0.0.1
   socket: /tmp/mysql.sock
+  port: 3306
 
 development:
   <<: *default
-  database: faclabprojet0_development
+  database: comptage_visiteurs
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: faclabprojet0_test
+  database: comptage_visiteurs
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -49,6 +50,6 @@ test:
 #
 production:
   <<: *default
-  database: faclabprojet0_production
+  database: comptage_visiteurs
   username: faclabprojet0
   password: <%= ENV['FACLABPROJET0_DATABASE_PASSWORD'] %>

@@ -1,0 +1,23 @@
+//// FONTS
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
+
+
+///// mixins
+
+@mixin button{
+  background-color: $main_color;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+@mixin button_hover{
+  opacity: 0.8;
+}
+@mixin h2_pc{
+  text-transform: uppercase;
+  color: $main_color;
+  font-size: $h2_size;
+}

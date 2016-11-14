@@ -1,3 +1,12 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  root 'sessions#new'
+  post   '/',   to: 'sessions#create'
+  delete '/logout',  to: 'sessions#destroy'
+
+  resources :visits, :only => [:index,:show,:new,:destroy,:create]
+  resources :places
+
+  # recuperation de la requete ajax (les filtres)
+  post 'visits/index' => 'visits#index'
 end

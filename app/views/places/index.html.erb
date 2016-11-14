@@ -1,0 +1,16 @@
+<section>
+  <article id="places">
+    <header>
+      <h2>Places présentes dans la Faclab</h2>
+      <!-- <h3>Noms</h3> -->
+    </header>
+    <% @places.each do |place| %>
+      <div class="place-info">
+        <span><%= place.name %></span>
+        <div><%= button_to 'Modifier', edit_place_path(place), :method => "get" %></div>
+        <div><%= button_to 'Supprimer', place, method: :delete, data: { confirm: 'Vous êtes sur le point de supprimer le lieu : "'+place.name+'". Continuer malgré tout ?' } %></div>
+      </div>
+    <% end %>
+    <div class="add_place"><%= button_to 'Ajouter un lieu', new_place_path, :method => "get" %></div>
+  </article>
+</section>

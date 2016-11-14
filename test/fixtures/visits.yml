@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: visits
+#
+#  id         :integer          not null, primary key
+#  date_visit :datetime
+#  place_id   :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date_visit: 2016-09-29 10:37:54
+  place_id: 1
+
+two:
+  date_visit: 2016-09-29 10:37:54
+  place_id: 1
