@@ -28,6 +28,41 @@
     @include  button_hover;
     }
   }
+
+
+
+  .place-info{
+    .modify{   
+      input{
+        @include button;
+        color: #3F51B5;
+        border-color: #3F51B5;
+        margin: 4px;
+        &:hover{
+          @include  button_hover;
+          background-color: #3F51B5;
+        }
+      }
+    }
+    .suppression{
+      input{
+        @include button;
+        color: #FF5722;
+        border-color: #FF5722;
+        margin: 4px;
+        &:hover{
+          @include  button_hover;
+          background-color: #FF5722;
+        }
+      }
+    }
+  }
+  
+
+  
+
+
+
 }
 #modif_places, #ajout_lieux{
   display: flex;
@@ -38,14 +73,26 @@
   h2{
     @include h2_pc;
     margin-bottom: 50px;
-  }
-  .actions input, .button_to input{
+  } 
+  .button_to input{
     @include button;
     margin: 4px;
     &:hover{
     @include  button_hover;
     }
   }
+  .actions input{
+    @include button;
+    margin: 4px;
+    border-color: #4CAF50;
+    color: #4CAF50;
+    &:hover{
+      @include button_hover;
+      background-color: #4CAF50;
+    }
+  } 
+
+  
   .field input{
     border: none;
     border-bottom: 1px solid $main_color;

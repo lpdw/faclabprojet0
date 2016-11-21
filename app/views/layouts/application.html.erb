@@ -16,10 +16,6 @@
 
   <body>
     <header>
-
-
-
-
         <nav class="subnav">
             <ul>
                 <li><%= link_to 'connexion' , root_path, :class => current_class?(root_path) %></li>
@@ -32,8 +28,8 @@
     <main>
         <section>
           <article id="messageAlerte">
-            <% flash.each do |message_type, message| %>
-              <%= message %>
+            <p><% flash.each do |message_type, message| %>
+              <%= message %></p>
             <% end %>
           </article>
             <%= yield %>
