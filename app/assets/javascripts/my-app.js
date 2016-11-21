@@ -205,7 +205,7 @@ $(document).on('turbolinks:load', function() {
         labels: labels,
         datasets: [
           {
-              label: " nombres de personne ",
+              label: " Nombres de personne ",
               backgroundColor: "#83D6DE",
               borderColor: "#1DABB8",
               data: datas_from_db
@@ -213,10 +213,10 @@ $(document).on('turbolinks:load', function() {
         ]
       }
       options = {
-        title: {
-                display: true,
-                text: 'Statistiques du ',
-            },
+        // title: {
+                // display: true,
+                // text: 'Statistiques du ',
+            // },
           animation : {
             easing:'easeOutBounce',
             duration:1500,
@@ -246,7 +246,7 @@ $(document).on('turbolinks:load', function() {
         labels: labels,
         datasets: [
             {
-                label: "My First dataset",
+                label: "Nombres de personne",
                 backgroundColor: colors,
                 borderColor: tabBorderColor,
                 borderWidth: 1,
@@ -255,10 +255,10 @@ $(document).on('turbolinks:load', function() {
           ]
       };
       options = {
-        title: {
-                display: true,
-                text: 'Statistiques du ',
-            },
+        // title: {
+        //         display: true,
+        //         text: 'Statistiques du ',
+        //     },
           legend: {display:true},
           scales: { yAxes: [{ ticks: { beginAtZero:true } }] }
       }
@@ -268,7 +268,7 @@ $(document).on('turbolinks:load', function() {
       datas = {
         labels: labels,
         datasets: [{
-              label: "My First dataset",
+              label: "Nombres de personne",
               backgroundColor: "rgba(179,181,198,0.2)",
               borderColor: "rgba(179,181,198,1)",
               pointBackgroundColor: "rgba(179,181,198,1)",
