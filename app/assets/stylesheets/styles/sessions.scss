@@ -5,12 +5,7 @@
 @import "base/mixins.scss";
 
 
-#messageAlerte{
-  width: 100%;
-  position: absolute;
-  color: red;
-  top: 132px;
-}
+
 
 #connexion{
 
@@ -30,6 +25,9 @@
         width: 50%;
         input{
           @include button;
+          &:hover{
+            @include button_hover;
+          }
 
         }
       }

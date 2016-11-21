@@ -6,16 +6,32 @@
 ///// mixins
 
 @mixin button{
-  background-color: $main_color;
-  color: white;
-  border: none;
+  background-color: white;
+  color: $main_color;
   padding: 10px 20px;
   text-transform: uppercase;
   cursor: pointer;
+  border: 1px solid $main_color;
 }
 @mixin button_hover{
   opacity: 0.8;
+  background-color: $main_color;
+  color: white;
 }
+@mixin button2{
+  background-color: white;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: rgb(0, 191, 173);
+  border: 1px solid rgb(0, 191, 173);
+}
+@mixin button2_hover{
+  background-color: rgb(0, 191, 173);
+  color: white;
+  opacity: 0.8;
+}
+
 @mixin h2_pc{
   text-transform: uppercase;
   color: $main_color;
