@@ -1,5 +1,5 @@
 
-var MyChartJsNamespace =
+var MyApp =
 {
   _dateToday : "",
   _request : null,
@@ -32,10 +32,10 @@ var MyChartJsNamespace =
     _target : null,
     _spinner : null,
     Start : function(item){
-      //utilise MyChartJsNamespace au lieu de this car cette methode est appelle a des postions différentes
-      MyChartJsNamespace.Loading._target = document.getElementById(item);
-      MyChartJsNamespace.Loading._spinner = new Spinner(MyChartJsNamespace.Loading._opts).spin(MyChartJsNamespace.Loading._target);
-      $(MyChartJsNamespace.Loading._target).data('spinner', MyChartJsNamespace.Loading._spinner);
+      //utilise MyApp au lieu de this car cette methode est appelle a des postions différentes
+      MyApp.Loading._target = document.getElementById(item);
+      MyApp.Loading._spinner = new Spinner(MyApp.Loading._opts).spin(MyApp.Loading._target);
+      $(MyApp.Loading._target).data('spinner', MyApp.Loading._spinner);
     },
     Stop : function(){
       $('#loading').data('spinner').stop();
@@ -48,7 +48,7 @@ var MyChartJsNamespace =
     _endDate : null,
     Init : function(item){
       if (item == "start_date") {
-        MyChartJsNamespace.DatePicker._startDate = $("#start_date").datepicker({
+        MyApp.DatePicker._startDate = $("#start_date").datepicker({
           dateFormat: 'yy-mm-dd',
           minDate: new Date(2014,12,1), // it will set minDate from 1 january 2015
           changeMonth: true,
@@ -57,7 +57,7 @@ var MyChartJsNamespace =
         });
       }
       else {
-        MyChartJsNamespace.DatePicker._endDate = $("#end_date").datepicker({
+        MyApp.DatePicker._endDate = $("#end_date").datepicker({
           dateFormat: 'yy-mm-dd',
           defaultDate: "+1w",
           changeMonth: true,
@@ -79,45 +79,45 @@ var MyChartJsNamespace =
     },
     LoadMyChart : function(init) // reçoit un booleen qui indique si c'est init ou reload
     {
-      MyChartJsNamespace._filtersInit = [];
-      MyChartJsNamespace._filtersOnChange = [];
+      MyApp._filtersInit = [];
+      MyApp._filtersOnChange = [];
       this._chartType = $("#chartType").val();
 
       if(init === true) //si c'est un chargement de base (1ère ouverture navigateur)
       {
 
-        MyChartJsNamespace._filtersInit['place_id'] = $("#place_place_id").val(); //dans les 2 cas j'ai besoin de la place
-        MyChartJsNamespace._filtersInit['start_date']   = MyChartJsNamespace._dateToday;
-        MyChartJsNamespace._filtersInit['end_date']     = MyChartJsNamespace._dateToday;
+        MyApp._filtersInit['place_id'] = $("#place_place_id").val(); //dans les 2 cas j'ai besoin de la place
+        MyApp._filtersInit['start_date']   = MyApp._dateToday;
+        MyApp._filtersInit['end_date']     = MyApp._dateToday;
 
-        MyChartJsNamespace._request = MyChartJsNamespace.AjaxRequest(MyChartJsNamespace._filtersInit);
-        MyChartJsNamespace._request.then(function(data){
-          MyChartJsNamespace.Loading.Stop();
-          MyChartJsNamespace.Chart._datas = data.datas;
-          MyChartJsNamespace.Chart._labels = data.labels;
-          MyChartJsNamespace.Chart.DrawMyChart();
+        MyApp._request = MyApp.AjaxRequest(MyApp._filtersInit);
+        MyApp._request.then(function(data){
+          MyApp.Loading.Stop();
+          MyApp.Chart._datas = data.datas;
+          MyApp.Chart._labels = data.labels;
+          MyApp.Chart.DrawMyChart();
         });
-        MyChartJsNamespace._request.fail(function(err){console.log(err); });
+        MyApp._request.fail(function(err){console.log(err); });
       }
       else
       {
-        MyChartJsNamespace._filtersOnChange['place_id'] = $("#place_place_id").val(); //dans les 2 cas j'ai besoin de la place
-        MyChartJsNamespace._filtersOnChange['start_date']   = $("#start_date").val();
-        MyChartJsNamespace._filtersOnChange['end_date']     = $("#end_date").val();
+        MyApp._filtersOnChange['place_id'] = $("#place_place_id").val(); //dans les 2 cas j'ai besoin de la place
+        MyApp._filtersOnChange['start_date']   = $("#start_date").val();
+        MyApp._filtersOnChange['end_date']     = $("#end_date").val();
 
-        MyChartJsNamespace._request = MyChartJsNamespace.AjaxRequest(MyChartJsNamespace._filtersOnChange);
-        MyChartJsNamespace._request.then(function(data){
-          MyChartJsNamespace.Loading.Stop();
-          MyChartJsNamespace.Chart._datas = data.datas;
-          MyChartJsNamespace.Chart._labels = data.labels;
-          MyChartJsNamespace.Chart.DrawMyChart(this._labels,this._datas);
+        MyApp._request = MyApp.AjaxRequest(MyApp._filtersOnChange);
+        MyApp._request.then(function(data){
+          MyApp.Loading.Stop();
+          MyApp.Chart._datas = data.datas;
+          MyApp.Chart._labels = data.labels;
+          MyApp.Chart.DrawMyChart(this._labels,this._datas);
         });
-        MyChartJsNamespace._request.fail(function(err){console.log(err); });
+        MyApp._request.fail(function(err){console.log(err); });
       }
     },
     DrawMyChart : function()
     {
-      MyChartJsNamespace.Loading.Stop();
+      MyApp.Loading.Stop();
 
       var infos = null;
       var ctx = document.getElementById("myChart").getContext("2d");
@@ -137,7 +137,7 @@ var MyChartJsNamespace =
     {
         this._chartTypetype = $(this._chartType).val();
         this._chartInstance.destroy();
-        MyChartJsNamespace.Loading.Stop();
+        MyApp.Loading.Stop();
 
         var infos = this.GetTypeChart(this._chartTypetype,this._labels,this._datas);
         var ctx = document.getElementById("myChart").getContext("2d");
@@ -325,31 +325,31 @@ var MyChartJsNamespace =
 
 $(document).on('turbolinks:load', function()
 {
-  MyChartJsNamespace.Init();
+  MyApp.Init();
 
-  MyChartJsNamespace.DatePicker.Init("start_date");
-  MyChartJsNamespace.DatePicker.Init("end_date");
+  MyApp.DatePicker.Init("start_date");
+  MyApp.DatePicker.Init("end_date");
 
   //on charge un graphe de base
-  MyChartJsNamespace.Chart.Init();
+  MyApp.Chart.Init();
 
-  MyChartJsNamespace.Loading.Start("loading");
+  MyApp.Loading.Start("loading");
 
   // onChange on the filter "place"
   $("#place_place_id").on('change',function(){
-    MyChartJsNamespace.Place.OnChange();
+    MyApp.Place.OnChange();
   });
 
   $("#chartType").on('change',function(){
-    MyChartJsNamespace.Chart.ChartTypeOnChange();
+    MyApp.Chart.ChartTypeOnChange();
   });
 
   $("#valider").on('click',function(){
-    MyChartJsNamespace.Validate();
+    MyApp.Validate();
   });
 
   $("#download-to-csv").click(function(){
-    MyChartJsNamespace.DownloadCsv();
+    MyApp.DownloadCsv();
   });
 
 
