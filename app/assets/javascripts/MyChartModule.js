@@ -302,9 +302,6 @@ var MyApp =
     }
     else {
 
-      var ur_data = []
-
-
       var csv = Papa.unparse({
         fields: ["Column 1", "Column 2"],
          data: [
@@ -313,7 +310,6 @@ var MyApp =
          ]
       });
         console.log(csv);
-
     }
   }
 }

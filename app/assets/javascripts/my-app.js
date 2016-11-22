@@ -1,4 +1,4 @@
-//that file need MyChartModule.js
+//require MyChartModule.js
 
 /***********************************************************************************\
     Window.onLoad
