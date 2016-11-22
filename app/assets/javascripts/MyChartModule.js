@@ -300,16 +300,70 @@ var MyApp =
     if (this.Chart._datas.length <= 0 || this.Chart._labels.length <= 0) {
       alert("pas de données disponibles à telecharger");
     }
-    else {
+    else
+    {
 
-      var csv = Papa.unparse({
-        fields: ["Column 1", "Column 2"],
-         data: [
-           ["foo", "bar"],
-           ["abc", "def"]
-         ]
+      // var typeLabelIsHour = false;
+      // for (var i = 0; i < this.Chart._labels.length; i++)
+      // {
+      //   var row = "";
+      //   try {
+      //     this.Chart._labels[i].join(" ");
+      //     typeLabelIsHour = true;
+      //   } catch (e) {
+      //     typeLabelIsHour = false;
+      //     this.Chart._labels[i].replace(/\s+/g, '');
+      //   }
+      // }
+      //
+      // var fields = [];
+      // if (typeLabelIsHour)
+      //   fields = ["Heure","Visites"];
+      // else
+      //   fields = ["Jour","Visites"];
+      var dataToExport = [ JSON.parse(JSON.stringify(this.Chart._labels)), JSON.parse(JSON.stringify(this.Chart._datas)) ];
+
+      var csv = Papa.unparse({data : dataToExport},{
+        header: true,
+        quotes: true,
+        delimiter: ";",
+        // download: true,
+        newline: "\r\n",
       });
-        console.log(csv);
+
+      console.log(csv);
+      var allDatasCsv =  [];
+
+      var firstRow = this.Chart._labels[0];
+      if (firstRow.split(" ")[1] == "h") {
+        for (var i = 0; i < this.Chart._labels.length; i++) {
+          var row = this.Chart._labels[i].split(" ");
+          allDatasCsv.push({
+            "Heure": row[0]+"h",
+        		"Visites": this.Chart._datas[i]
+          })
+        }
+      }
+      else {
+        for (var i = 0; i < this.Chart._labels.length; i++) {
+          allDatasCsv.push({
+            "Jour": this.Chart._labels[i],
+        		"Visites": this.Chart._datas[i]
+          })
+        }
+      }
+
+
+      var csv2 = Papa.unparse( { data:allDatasCsv }, { delimiter: ";" } );
+
+      var blob = new Blob([csv2]);
+      var a = window.document.createElement("a");
+      a.href = window.URL.createObjectURL(blob,{type:"text/plain"});
+      a.download = "faclab.csv";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      console.log(csv2);
     }
   }
 }
