@@ -303,18 +303,16 @@ var MyChartJsNamespace =
     }
     else {
 
-      var data = [];
-      data.fields = ["Jour", "Visites"];
-      data.labels =  this.Chart._labels;
-      data.datas = this.Chart._datas;
+      var ur_data = []
+
 
       var csv = Papa.unparse({
-         fields: ["Jour", "Visites"],
+        fields: ["Column 1", "Column 2"],
          data: [
-           data.labels,
-           data.datas
+           ["foo", "bar"],
+           ["abc", "def"]
          ]
-        });
+      });
         console.log(csv);
 
     }
