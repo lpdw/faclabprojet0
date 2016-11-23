@@ -216,25 +216,6 @@ var MyApp =
             scales: { yAxes: [{ ticks: { beginAtZero:true } }] }
         }
       }
-      else if (this._chartType === "pie")
-      {
-        datas = {
-          labels: this._labels,
-          datasets: [
-              {
-                  data: this._datas,
-                  backgroundColor:tabColors,
-                  hoverBackgroundColor: tabColors
-              }]
-        };
-        options = {
-          animation : {
-            easing:'easeOutBounce',
-            duration:1500,
-            animateScale:true
-          }
-        };
-      }
 
       infos['datas'] = datas;
       infos['options'] = options;
