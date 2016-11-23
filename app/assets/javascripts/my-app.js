@@ -27,6 +27,15 @@ $(document).on('turbolinks:load', function()
   $("#download-to-csv").click(function(){
     MyApp.DownloadCsv();
   });
+//Use a tiny library to convert convas -> blob and save as a file like png
+ $("#pdfview").on("click",function() {
+   $("#myChart").get(0).toBlob(function(blob) {
+     setTimeout(1000);
+     saveAs(blob, MyApp.Init()+"_Export.png");
+   });
+ });
+
+
 
 /***********************************************************************************\
                   DESIGN Yann
