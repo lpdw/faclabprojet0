@@ -58,10 +58,11 @@ var MyApp =
       else {
         MyApp.DatePicker._endDate = $("#end_date").datepicker({
           dateFormat: 'yy-mm-dd',
-          defaultDate: "+1w",
+          defaultDate: "0w",
           changeMonth: true,
           maxDate: '+0m +0w',
-          numberOfMonths: 1
+          numberOfMonths: 1,
+          minDate: MyApp._startDate
         });
       }
     },
@@ -120,8 +121,8 @@ var MyApp =
 
       var infos = null;
       var ctx = document.getElementById("myChart").getContext("2d");
-      ctx.canvas.width = 400;
-      ctx.canvas.height = 300;
+      ctx.canvas.width = 500;
+      ctx.canvas.height = 350;
 
       var type = $("#chartType").val();
 
