@@ -78,10 +78,13 @@ section{
       width: 100%;
     }
   }
-  #messageAlerte{
+  #messageAlerte, #error_explanation, #error_explanation h2 {
     width: 100%;
     color: red;
     margin-top: 15px;
+    font-size: 1rem;
+    padding-bottom: 1rem;
+
   } 
 }
 
