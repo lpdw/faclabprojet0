@@ -293,45 +293,13 @@ var MyApp =
     this.Chart._chartInstance.destroy();
     this.Chart.LoadMyChart(this._filtersOnChange);
   },
-  DownloadCsv : function(){
-    console.log(this.Chart._datas);
-    console.log(this.Chart._labels);
-
-    if (this.Chart._datas.length <= 0 || this.Chart._labels.length <= 0) {
+  DownloadCsv : function()
+  {
+    if (this.Chart._datas.length <= 0 || this.Chart._labels.length <= 0)
       alert("pas de données disponibles à telecharger");
-    }
     else
     {
-
-      // var typeLabelIsHour = false;
-      // for (var i = 0; i < this.Chart._labels.length; i++)
-      // {
-      //   var row = "";
-      //   try {
-      //     this.Chart._labels[i].join(" ");
-      //     typeLabelIsHour = true;
-      //   } catch (e) {
-      //     typeLabelIsHour = false;
-      //     this.Chart._labels[i].replace(/\s+/g, '');
-      //   }
-      // }
-      //
-      // var fields = [];
-      // if (typeLabelIsHour)
-      //   fields = ["Heure","Visites"];
-      // else
-      //   fields = ["Jour","Visites"];
       var dataToExport = [ JSON.parse(JSON.stringify(this.Chart._labels)), JSON.parse(JSON.stringify(this.Chart._datas)) ];
-
-      var csv = Papa.unparse({data : dataToExport},{
-        header: true,
-        quotes: true,
-        delimiter: ";",
-        // download: true,
-        newline: "\r\n",
-      });
-
-      console.log(csv);
       var allDatasCsv =  [];
 
       var firstRow = this.Chart._labels[0];
@@ -353,17 +321,16 @@ var MyApp =
         }
       }
 
+      var csv = Papa.unparse( { data:allDatasCsv }, { delimiter: ";" } );
 
-      var csv2 = Papa.unparse( { data:allDatasCsv }, { delimiter: ";" } );
-
-      var blob = new Blob([csv2]);
+      var blob = new Blob([csv]);
       var a = window.document.createElement("a");
       a.href = window.URL.createObjectURL(blob,{type:"text/plain"});
       a.download = "faclab.csv";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      console.log(csv2);
+      console.log(csv);
     }
   }
 }

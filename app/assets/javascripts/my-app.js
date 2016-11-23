@@ -1,17 +1,14 @@
 //require MyChartModule.js
 
-/***********************************************************************************\
-    Window.onLoad
-\***********************************************************************************/
 $(document).on('turbolinks:load', function()
 {
   MyApp.Init();
   MyApp.DatePicker.Init("start_date");
   MyApp.DatePicker.Init("end_date");
 
-  //on charge un graphe de base
+  //load myChart
   MyApp.Chart.Init();
-
+  //show loading => stop when data loaded
   MyApp.Loading.Start("loading");
 
   // onChange on the filter "place"
@@ -30,7 +27,6 @@ $(document).on('turbolinks:load', function()
   $("#download-to-csv").click(function(){
     MyApp.DownloadCsv();
   });
-
 
 /***********************************************************************************\
                   DESIGN Yann
