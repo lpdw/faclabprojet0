@@ -1,0 +1,13 @@
+<h1>Connexion</h1>
+
+
+<%= form_for(:session, url: root_path) do |f| %>
+
+  <%= f.label :login %>
+  <%= f.text_field :login %>
+
+  <%= f.label :mot_de_passe %>
+  <%= f.password_field :password %>
+
+  <%= f.submit "Valider" %>
+<% end %>

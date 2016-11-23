@@ -31,7 +31,7 @@ $(document).on('turbolinks:load', function()
  $("#pdfview").on("click",function() {
    $("#myChart").get(0).toBlob(function(blob) {
      setTimeout(1000);
-     saveAs(blob, MyApp.Init()+"_Export.png");
+     saveAs(blob, MyApp._dateToday+"_Export.png");
    });
  });
 

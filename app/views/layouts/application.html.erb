@@ -5,28 +5,24 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width" />
     <%= csrf_meta_tags %>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-    <script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/master/canvas-toBlob.js"></script>
-    <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/master/FileSaver.min.js"></script>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' , :recursive => true %>
     <%= javascript_include_tag 'application',media: 'all', 'data-turbolinks-track': 'reload' , :recursive => true %>
     <script src="http://spin.js.org/spin.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
   </head>
-
-
-
-
   <body>
     <header>
         <nav class="subnav">
+          <% if logged_in? %>
             <ul>
-                <li><%= link_to 'Connexion' , root_path, :class => current_class?(root_path) %></li>
+
                 <li><%= link_to 'Lieux' , places_path, :class => current_class?(places_path)  %></li>
                 <li><%= link_to 'Visites' , visits_path, :class => current_class?(visits_path)  %></li>
-                <li></li>
+                <li><%= link_to 'Déconnexion', logout_path, method: "delete" %></li>
+
             </ul>
+          <% end %>
         </nav>
     </header>
     <main>
@@ -38,19 +34,5 @@
           </article>
             <%= yield %>
         </section>
-        <aside>
-
-        </aside>
-    </main>
-
-    <footer>
-
-    </footer>
   </body>
-
-
-
-
-
-
 </html>
