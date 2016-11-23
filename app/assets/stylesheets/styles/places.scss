@@ -12,6 +12,7 @@
   flex-direction: column;
   align-items: center;
   margin-top: 100px;
+  width: 800px;
   span{
     align-self: center;
     width: 200px;
@@ -32,6 +33,10 @@
 
 
   .place-info{
+    justify-content: space-between;
+    .placeName{
+      flex: 4;
+    }
     .modify{   
       input{
         @include button;
@@ -45,11 +50,16 @@
       }
     }
     .suppression{
+
       input{
         @include button;
         color: #FF5722;
         border-color: #FF5722;
         margin: 4px;
+        &:before{
+          content: "\f014";
+        }
+
         &:hover{
           @include  button_hover;
           background-color: #FF5722;
@@ -67,18 +77,41 @@
 #modif_places, #ajout_lieux{
   display: flex;
   margin-top: 100px;
+  width: 800px;
   .new_place{
+    margin-bottom: 40px;
     display: flex;
+    align-items: flex-end;
+    width: 100%;
+    justify-content: space-around;
+    .field{
+      flex: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+    }
+    .actions{
+      flex: 1;
+      input{
+        margin: 0;
+        float: right;
+      }
+    }
   }
   h2{
     @include h2_pc;
     margin-bottom: 50px;
-  } 
-  .button_to input{
-    @include button;
-    margin: 4px;
-    &:hover{
-    @include  button_hover;
+  }
+  .button_to{
+    justify-content: flex-end;
+    width: 100%;
+    display: flex;
+    input{
+      @include button;
+      margin: 0px;
+      &:hover{
+      @include  button_hover;
+      }
     }
   }
   .actions input{
@@ -100,7 +133,7 @@
     text-transform: uppercase;
     cursor: auto;
   }
-  .edit_place, .button_to{
+  .edit_place{
     width: 100%;
     display: flex;
     justify-content: center;
@@ -111,9 +144,16 @@
   width: 100%;
 }
 .add_place{
+  margin-top: 40px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   width: 100%;
+  input{
+    width: 207px;
+    
+  }
+  
+
 }
 
 @media screen and (max-width: 768px){
@@ -124,6 +164,11 @@
   #places{
     margin-top: 50px;
     width: 100%;
+  }
+  #modif_places, #ajout_lieux{
+    .new_place{
+      width: 100%;
+    }
   }
 
 }
