@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+  skip_before_action :require_login, only: [:new, :create]
+  before_action :verify_login, only: [:new, :create]
+
   def new
   end
 
@@ -19,5 +22,10 @@ class SessionsController < ApplicationController
     redirect_to root_url
   end
 
+  def verify_login
+    if logged_in?
+      redirect_to visits_url
+    end
+  end
 
 end
