@@ -1,5 +1,5 @@
 <center>
-  <h1>Statistiques des visistes du faclab</h1>
+  <h1>Statistiques des visites du faclab</h1>
   <%= form_tag '' , method: 'post' do %>
     <%= select(:place,:place_id,options_for_select(@places.map { |place| [place.name, place.id] })) %>
   <% end %>
