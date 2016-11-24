@@ -1,39 +1,29 @@
 <center>
+  <h1>Statistiques des visistes du faclab</h1>
   <%= form_tag '' , method: 'post' do %>
     <%= select(:place,:place_id,options_for_select(@places.map { |place| [place.name, place.id] })) %>
-
   <% end %>
 
   <div id="loading"></div>
-  <div style="width:400px;margin-top:2em">
+  <div>
     <canvas id="myChart"></canvas>
   </div>
   <select class="" id="chartType" name="">
     <option value="line">Line Chart</option>
     <option value="bar">Bar Chart</option>
-
-    <!-- <option value="radar">Radar Chart</option> -->
-    <!-- <option value="polarArea">Polar Area Chart</option> -->
-    <!--<option value="pie">Pie Chart</option>-->
-
   </select>
 
     <div>
         <label for="from">Du<input type="text" id="start_date" name="start_date"/></label>
         <label for="to">Au<input type="text" id="end_date" name="end_date"/></label>
-        <div class="lightbox">
-    </div>
+        <div class="lightbox"></div>
     </div>
     <button id="valider">valider</button>
 
     <div id="export">
+      <span>Export des graphes</span>
       <button type="button" id="download-to-csv" >
           <i class="fa fa-download">&nbsp;</i> CSV </button>
       <button id="pdfview" class="button"><i class="fa fa-download">&nbsp;</i> PNG</button>
     </div>
-    <!-- <div id="export"> -->
-      <!-- <span>Export:</span> -->
-      <!-- <span id="csv"><%= link_to "CSV", visits_path(format: "csv") %></span> -->
-
-    </p>
 </center>

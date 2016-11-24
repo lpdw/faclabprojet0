@@ -3,7 +3,7 @@
   <head>
      <%= favicon_link_tag 'logo-faclab.svg' %>
     <title>Faclabprojet0</title>
-   
+
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width" />
     <%= csrf_meta_tags %>
@@ -16,11 +16,11 @@
   <body>
     <header>
         <nav class="subnav">
-          <div><a href= "/"><%= image_tag("logo-faclab.svg", :alt => "logo", :class => "logo") %></a></div>
+          <div id="logo-wrapper"><a href= "/"><%= image_tag("logo-faclab.svg", :alt => "logo", :class => "logo") %></a></div>
           <% if logged_in? %>
             <ul>
-                <li><%= link_to 'Lieux' , places_path, :class => current_class?(places_path)  %></li>
                 <li><%= link_to 'Visites' , visits_path, :class => current_class?(visits_path)  %></li>
+                <li><%= link_to 'Lieux' , places_path, :class => current_class?(places_path)  %></li>
                 <li><%= link_to 'Déconnexion', logout_path, method: "delete" %></li>
 
             </ul>

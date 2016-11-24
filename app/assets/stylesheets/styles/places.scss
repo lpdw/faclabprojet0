@@ -5,13 +5,11 @@
 @import "base/vars.scss";
 @import "base/mixins.scss";
 
-
-
 #places {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 50px;
   width: 800px;
   span{
     align-self: center;
@@ -30,14 +28,12 @@
     }
   }
 
-
-
   .place-info{
     justify-content: space-between;
     .placeName{
       flex: 4;
     }
-    .modify{   
+    .modify{
       input{
         @include button;
         color: #3F51B5;
@@ -50,7 +46,6 @@
       }
     }
     .suppression{
-
       input{
         @include button;
         color: #FF5722;
@@ -59,7 +54,6 @@
         &:before{
           content: "\f014";
         }
-
         &:hover{
           @include  button_hover;
           background-color: #FF5722;
@@ -67,13 +61,8 @@
       }
     }
   }
-  
-
-  
-
-
-
 }
+
 #modif_places, #ajout_lieux{
   display: flex;
   margin-top: 100px;
@@ -123,9 +112,7 @@
       @include button_hover;
       background-color: #4CAF50;
     }
-  } 
-
-  
+  }
   .field input{
     border: none;
     border-bottom: 1px solid $main_color;
@@ -150,12 +137,10 @@
   width: 100%;
   input{
     width: 207px;
-    
   }
-  
-
 }
 
+/// media queries
 @media screen and (max-width: 768px){
   section{
     max-width: 90%;
@@ -170,5 +155,4 @@
       width: 100%;
     }
   }
-
 }

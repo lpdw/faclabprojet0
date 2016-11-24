@@ -4,11 +4,7 @@
 @import "base/vars.scss";
 @import "base/mixins.scss";
 
-
-
-
 #connexion{
-
   margin-top: 150px;
   header{
     h2{
@@ -18,7 +14,7 @@
   form{
     display: flex;
     flex-wrap: wrap;
-    fieldset{
+    fieldset {
       width: 100%;
       &.formValidate{
         text-align: right;
@@ -38,7 +34,6 @@
           color: $main_color;
         }
       }
-
     ol{
       display: flex;
       align-content: space-between;
@@ -62,11 +57,11 @@
         }
       }
     }
-  }
+   }
   }
 }
-/// media queries
 
+/// media queries
 @media screen and (max-width: 768px){
   //// connexion
   section{
@@ -75,5 +70,4 @@
   #connexion{
     margin-top: 50px;
   }
-
 }

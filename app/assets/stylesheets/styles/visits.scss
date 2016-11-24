@@ -4,15 +4,23 @@
 @import "base/vars.scss";
 @import "base/mixins.scss";
 
-
-
 center{
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  margin-top: 100px;
+  margin: 50px 0;
+  h1 {
+    @include h2_pc;
+    margin-bottom: 50px;
+  }
+  form {
+    margin-bottom: 20px;
+  }
   #export{
-
+    span {
+      display: block;
+      margin: 10px 0;
+    }
     #download-to-csv,#pdfview{
           width: 50px;
           height: 30px;
@@ -28,7 +36,7 @@ center{
     }
   }
 
-  
+
   #start_date, #end_date{
     margin-left: 10px;
   }
@@ -55,11 +63,14 @@ canvas{
     }
   }
 }
-#chartType, #valider{
-  margin-bottom: 15px;
+#chartType {
+  margin: 15px 0px;
 }
 #valider{
+  width: 150px;
+  margin: 0 auto;
   margin-top: 15px;
+  margin-bottom: 15px;
 }
 /////  le calendrier
 
@@ -102,8 +113,8 @@ canvas{
   display: none;
   z-index: 15;
 }
-/// media queries
 
+/// media queries
 @media screen and (max-width: 768px){
   //// schema
   section{
@@ -122,5 +133,4 @@ canvas{
   #ui-datepicker-div{
     left: 12%!important;
   }
-
 }

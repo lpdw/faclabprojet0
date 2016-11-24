@@ -8,7 +8,6 @@ html, form, body{
     background-color: transparent!important;
 }
 
-
 //// HEADER
 body > header{
     width: 100%;
@@ -18,21 +17,25 @@ body > header{
     display: flex;
 }
 
-
 //// NAV
 nav{
     display: flex;
     height: 100%;
     color: $text_white;
-    flex: 1;
-    &>div{
-      flex: 1.5;
+    width: 100%;
+    justify-content: flex-end;
+    #logo-wrapper {
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      left: 20px;
+      top: 0px;
       .logo{
          height: 95%;
+         margin-left: 10px;
       }
     }
     ul{
-      flex: 1;
         display: flex;
         width: 50%;
         height: 100%;
@@ -42,37 +45,33 @@ nav{
           height: 100%;
           display: flex;
           align-items: center;
+          justify-content: flex-end;
           flex: 1;
-
-
-
-
-            a{
-                height: 100%;
-                text-decoration: none;
-                color: $text_white;
-                margin: 0 auto;
-                display: flex;
-                align-items: center;
-                width: 100%;
-                justify-content: center;
-                &:active{
-                       background-color: $button_hover;
-                   }
-                &:hover{
-                  background-color: $button_hover;
-                  cursor: pointer;
-                }
-                &.active{
-                       background-color: $button_hover;
-                   }
-
-
-
+            a {
+              height: 100%;
+              text-decoration: none;
+              color: $text_white;
+              margin: 0 auto;
+              display: flex;
+              align-items: center;
+              justify-content: flex-end;
+              width: 100%;
+              justify-content: center;
+              &:active{
+                     background-color: $button_hover;
+              }
+              &:hover{
+                background-color: $button_hover;
+                cursor: pointer;
+              }
+              &.active{
+                     background-color: $button_hover;
+              }
             }
         }
     }
 }
+
 ////// SECTION
 section{
     justify-content: center;
@@ -94,20 +93,18 @@ section{
     margin-top: 15px;
     font-size: 1rem;
     padding-bottom: 1rem;
-
-  } 
+  }
 }
 
 /// media queries
-
 @media screen and (max-width: 768px){
   //// HEADER
   body > header > nav {
-    ul{
-      width: 100%;
-      a{
-        padding: 0 15px;
-      }
+    #logo-wrapper {
+      left: 0px;
+    }
+    ul a{
+      padding: 0 15px;
     }
   }
 }
