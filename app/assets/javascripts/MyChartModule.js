@@ -171,7 +171,7 @@ var MyApp =
           labels: this._labels,
           datasets: [
             {
-                label: " Nombres de personne ",
+                label: " Nombre de personnes ",
                 backgroundColor: "#83D6DE",
                 borderColor: "#1DABB8",
                 data: this._datas
@@ -204,7 +204,7 @@ var MyApp =
           labels: this._labels,
           datasets: [
               {
-                  label: "Nombres de personne",
+                  label: "Nombres de personnes",
                   backgroundColor: colors,
                   borderColor: tabBorderColor,
                   borderWidth: 1,
