@@ -1,6 +1,7 @@
 class VisitsController < ApplicationController
   before_action :set_visit, :only => [:show,:edit,:destroy,:update]
 
+
   #####################################################################################################################
   # GET /visits
   # GET /visits.json
@@ -8,11 +9,6 @@ class VisitsController < ApplicationController
 
     @visits = Visit.all
     @places = Place.all
-
-    respond_to do |format|
-      format.html
-      format.csv { render plain: @visits.to_csv }
-    end
 
     labels_hours = [9,10,11,12,13,14,15,16,17,18,19,20]
     labels_months = ["Jan", "Fevr", "Mars", "Avril", "Mai", "Juin", "Juillet","Aout","Sept","Oct","Nov","Dec"]
