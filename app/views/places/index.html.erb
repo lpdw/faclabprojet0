@@ -1,6 +1,6 @@
 <article id="places">
     <header>
-      <h2>Lieux existant dans le Faclab</h2>
+      <h2>Lieux existants dans le Faclab</h2>
       <!-- <h3>Noms</h3> -->
     </header>
     <% @places.each do |place| %>
@@ -12,4 +12,3 @@
     <% end %>
     <div class="add_place"><%= button_to 'Ajouter un lieu', new_place_path, :method => "get" %></div>
   </article>
-
