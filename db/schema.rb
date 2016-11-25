@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20161018125644) do
   end
 
   create_table "visits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.datetime "date_visit", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "date_visit",                                      null: false
     t.integer  "place_id"
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
