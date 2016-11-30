@@ -225,13 +225,7 @@ var MyApp =
   },
   Place : {
     OnChange : function(){
-      this._filtersOnChange['place_id'] = $("#place_place_id").val();
-      this._filtersOnChange['start_date']   = this.DatePicker._startDate.val();
-      this._filtersOnChange['end_date']     = this.DatePicker._endDate.val();
-
-      this.Loading.Start("loading");
-      this._chartInstance.destroy();
-      this.Chart.LoadMyChart(this._filtersOnChange);
+      MyApp.Validate();
     }
   },
   Init : function()
